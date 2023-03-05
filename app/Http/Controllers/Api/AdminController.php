@@ -328,10 +328,18 @@ class AdminController extends Controller
             return $this->msgdata($request, 401, $validator->messages()->first(), (object)[]);
         }
 
+        $branch_id = $request->branch_id;
+        
         if ($request->type == "product") {
             $data = Post::where('title', 'like', '%' . $request->key . '%')
                 ->orWhere('title_en', 'like', '%' . $request->key . '%')
                 ->orWhere('content','like','%' . $request->key . '%')
+                ->with(['stock'=>function($query) use($branch_id){
+                    $query->where('branch_id',$branch_id);
+                    $query->Where('qty', '!=' , 0);
+                    $query->orWhere('qty_mid', '!=' , 0);
+                    $query->orWhere('qty_sm', '!=' , 0);
+                }])
                 ->get();
         } else {
             $data = Category::where('title', 'like', '%' . $request->key . '%')
@@ -475,15 +483,15 @@ class AdminController extends Controller
     public function clientProfile(Request $request, $phone)
     {
 
-        $user = Client::where('phone', $phone)->get()->first();
+        $user = Client::where('phone', $phone)->get();
 
-        if (!$user) {
-            return $this->msgdata($request, 401, "لا يوجد حساب مسجل لهذا  الرقم", (object)[]);
+        if ($user->count() == 0) {
+            return $this->msgdata($request, 401, "لا يوجد حساب مسجل لهذا الرقم", (object)[]);
         }
-        $data = new ClientResource($user);
+
+        $data = ClientResource::collection($user);
+
         return $this->msgdata($request, 200, "نجاح", $data);
-
-
     }
 
     public function Discounts(Request $request)

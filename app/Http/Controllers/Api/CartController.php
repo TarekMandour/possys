@@ -39,6 +39,7 @@ class CartController extends Controller
         $rules = [
             'branch_id' => 'required|exists:branches,id',
             'itm_code' => 'required',
+            'qty' => 'required',
             'order_type' => 'required',
         ];
         $validator = Validator::make($request->all(), $rules);
@@ -64,7 +65,7 @@ class CartController extends Controller
             $data->itm_code = $request->itm_code;
             $data->title_en = $product->title_en;
             $data->expiry_date = $stock->expiry_date;
-            $data->qty = 1;
+            $data->qty = $request->qty;
             $data->unit_id = $product->itm_unit1;
             $data->unit_title = $product->Unit1->title;
             $data->is_tax = $product->is_tax;
