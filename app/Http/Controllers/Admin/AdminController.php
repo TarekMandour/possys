@@ -93,6 +93,9 @@ class AdminController extends Controller
         $row = Admin::find($request->id);
 
         if ($request->password) {
+            if (strlen($request->password) < 6) {
+                return redirect()->back()->with('error', 'عفوا كلمة المرور اقل من 6 احرف');
+            }
             $password = Hash::make($request->password);
         } else {
             $password = $row->password;

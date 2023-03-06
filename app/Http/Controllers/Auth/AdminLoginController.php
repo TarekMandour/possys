@@ -22,8 +22,8 @@ class AdminLoginController extends Controller
     public function login(Request $request)
     {
         $messages = [
-            'email' => 'Email tarek required!',
-            'password' => 'Password mandour required!'
+            'email' => 'حقل البريد الالكتروني ',
+            'password' => ' حقل كلمة المرور '
         ];
         
         // Validate form data
@@ -44,6 +44,9 @@ class AdminLoginController extends Controller
             if( Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password, 'is_active' => 1], $request->remember))
             {
                 return redirect()->intended(route('admin.blank'));
+            } else {
+                session()->flash('msg', 'عفوا كلمة المرور غير صحيحه');
+            return redirect()->back()->withInput($request->only('email','remember'));
             }
         } else {
             session()->flash('msg', 'لا يوجد حساب لهذا المستخدم');

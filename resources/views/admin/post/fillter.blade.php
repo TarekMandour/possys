@@ -28,6 +28,7 @@
                             </div>
 
                             <div class="col-sm-6">
+
                                 <form action="{{ route('admin.filter_post.submit') }}" id="fillter-branches" method="post">
                                     @csrf
 
@@ -51,7 +52,7 @@
                                 {{session()->get('msg')}}
                         </div>
                     @endif
-
+                    
                     <div class="table-rep-plugin">
                         <div class="table-responsive b-0" data-pattern="priority-columns">
 

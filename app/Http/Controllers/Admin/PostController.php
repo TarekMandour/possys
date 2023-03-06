@@ -34,6 +34,11 @@ class PostController extends Controller
     public function filter(Request $request)
     {
 
+        if (!$request->title && !$request->itm_code) {
+            
+            return redirect()->back()->with('error', 'يجب اختيار احد الحقول');
+        }
+
         $post = Post::orderBy('id', 'desc')->with('Category');
 
         if ($request->itm_code) {

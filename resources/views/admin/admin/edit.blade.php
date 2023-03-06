@@ -142,9 +142,6 @@
                                         <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
                                             حفظ
                                         </button>
-                                        <button type="reset" class="btn btn-secondary waves-effect">
-                                            الغاء
-                                        </button>
                                     </div>
                                 </div>
 

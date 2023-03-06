@@ -29,6 +29,7 @@
                             </div>
 
                             <div class="col-sm-6">
+                                
                                 <form action="{{ route('admin.filter_post.submit') }}" id="fillter-branches" method="post">
                                     @csrf
 
@@ -50,6 +51,11 @@
                     @if (session()->has('msg'))
                         <div class="alert alert-success">
                                 {{session()->get('msg')}}
+                        </div>
+                    @endif
+                    @if (session()->has('error'))
+                        <div class="alert alert-danger">
+                            {{session()->get('error')}}
                         </div>
                     @endif
 
