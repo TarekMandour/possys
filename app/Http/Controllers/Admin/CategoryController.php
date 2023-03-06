@@ -97,7 +97,8 @@ class CategoryController extends Controller
     {
 
         try{
-            Category::whereIn('id',$request->id)->delete();
+            // Category::whereIn('id',$request->id)->delete();
+            Category::where('id', $request->id)->orWhere('parent', $request->id)->delete();
         } catch (\Exception $e) {
             return response()->json(['msg'=>'Failed']);
         }

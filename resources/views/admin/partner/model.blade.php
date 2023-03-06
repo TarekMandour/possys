@@ -32,7 +32,7 @@
                 <input type="file" class="filestyle" name="photo" id="photo_link2" data-buttonname="btn-secondary">
                 <br>
                 @if ($data->photo == Null)
-                    <img class="img-thumbnail" id="get_photo_link2" style="width: 200px;" src="https://via.placeholder.com/200x150/EFEFEF/AAAAAA&amp;text=no+image/200x150/EFEFEF/AAAAAA&amp;text=no+image" data-holder-rendered="true">
+                    <img class="img-thumbnail" id="get_photo_link2" style="width: 200px;" src="{{ URL::asset('public/adminAssets\ar\images\gallery\dummy.jpg') }}" data-holder-rendered="true">
                 @else
                     <img class="img-thumbnail" id="get_photo_link2" style="width: 200px;" src="{{ URL::asset('public/uploads/') }}/{{$data->photo}}" data-holder-rendered="true">
                 @endif

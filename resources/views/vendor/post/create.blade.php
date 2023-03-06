@@ -215,13 +215,13 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="example-text-input" class="col-sm-12 col-form-label">Meta Keywords</label>
+                                            <label for="example-text-input" class="col-sm-12 col-form-label">الكلمات الدلالية</label>
                                             <div class="col-sm-12">
                                                 <input class="form-control" type="text" value="{{ old('meta_keywords') }}" name="meta_keywords">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="example-text-input" class="col-sm-12 col-form-label">Meta Description</label>
+                                            <label for="example-text-input" class="col-sm-12 col-form-label">الوصف</label>
                                             <div class="col-sm-12">
                                                 <input class="form-control" type="text" value="{{ old('meta_description') }}" name="meta_description">
                                             </div>

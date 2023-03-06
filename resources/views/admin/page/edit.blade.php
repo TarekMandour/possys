@@ -148,7 +148,7 @@
                                                                 @if ($data->photo == Null)
                                                                     <img class="img-thumbnail" id="get_photo_link"
                                                                          style="width: 200px;"
-                                                                         src="https://via.placeholder.com/200x150/EFEFEF/AAAAAA&amp;text=no+image/200x150/EFEFEF/AAAAAA&amp;text=no+image"
+                                                                         src="{{ URL::asset('public/adminAssets\ar\images\gallery\dummy.jpg') }}"
                                                                          data-holder-rendered="true">
                                                                 @else
                                                                     <img class="img-thumbnail" id="get_photo_link"
@@ -167,7 +167,7 @@
                                                                 @if ($data->photo2 == Null)
                                                                     <img class="img-thumbnail" id="get_photo_link2"
                                                                          style="width: 200px;"
-                                                                         src="https://via.placeholder.com/200x150/EFEFEF/AAAAAA&amp;text=no+image/200x150/EFEFEF/AAAAAA&amp;text=no+image"
+                                                                         src="{{ URL::asset('public/adminAssets\ar\images\gallery\dummy.jpg') }}"
                                                                          data-holder-rendered="true">
                                                                 @else
                                                                     <img class="img-thumbnail" id="get_photo_link2"
@@ -186,7 +186,7 @@
                                                                 @if ($data->photo3 == Null)
                                                                     <img class="img-thumbnail" id="get_photo_link3"
                                                                          style="width: 200px;"
-                                                                         src="https://via.placeholder.com/200x150/EFEFEF/AAAAAA&amp;text=no+image/200x150/EFEFEF/AAAAAA&amp;text=no+image"
+                                                                         src="{{ URL::asset('public/adminAssets\ar\images\gallery\dummy.jpg') }}"
                                                                          data-holder-rendered="true">
                                                                 @else
                                                                     <img class="img-thumbnail" id="get_photo_link3"

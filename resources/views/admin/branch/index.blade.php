@@ -30,7 +30,11 @@
                 <div class="container-fluid" dir="rtl">
                     <div class="card m-b-20">
                         <div class="card-body">
-
+                            @if (session()->has('msg'))
+                            <div class="alert alert-success">
+                                {{session()->get('msg')}}
+                            </div>
+                        @endif
                             <div class="m-b-30">
                                 <a href="{{ url('/admin/create_admin/') }}"
                                    class="btn btn-purple waves-effect waves-light" data-toggle="modal"
@@ -141,8 +145,8 @@
                                 </div>
 
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">اغلاق</button>
+                                    <button type="submit" class="btn btn-primary">حفظ</button>
                                 </div>
                             </form>
 

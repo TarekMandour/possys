@@ -88,6 +88,8 @@ class PostController extends Controller
             'itm_unit2' => 'required|numeric',
             'itm_unit3' => 'required|numeric',
             'photo' => 'image|mimes:png,jpg,jpeg|max:2048'
+        ], [
+            'itm_code.unique' => 'كود المنتج مُستخدم من قبل',
         ]);
 
         if ($img = $request->file('photo')) {
@@ -95,7 +97,7 @@ class PostController extends Controller
             $img->move(public_path('uploads/posts'), $name);
             $photo = url('/') . '/public/uploads/posts/' . $name;
         } else {
-            $photo = NULL;
+            $photo = url('/') . '/public/adminAssets/ar/images/gallery/dummy.jpg';
         }
 
         $data = new Post;
@@ -137,11 +139,13 @@ class PostController extends Controller
                         'attprice'=>$request['attprice'][$key],
                         'itm_code'=>$data->itm_code
                     ]);
+                } else {
+
                 }
             }
 
             foreach ($request->addname as $key=>$add){
-                if(!empty($att)){
+                if(!empty($add)){
                     PostAdditional::create([
                         'addname'=>$add,
                         'addprice'=>$request['addprice'][$key],
@@ -151,6 +155,7 @@ class PostController extends Controller
             }
 
         } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
             return response()->json(['msg' => 'Failed']);
         }
 
@@ -199,6 +204,8 @@ class PostController extends Controller
             'itm_unit2' => 'required|numeric',
             'itm_unit3' => 'required|numeric',
             'photo' => 'image|mimes:png,jpg,jpeg|max:2048'
+        ], [
+            'itm_code.unique' => 'كود المنتج مُستخدم من قبل',
         ]);
 
         $row = Post::find($request->id);
@@ -208,7 +215,7 @@ class PostController extends Controller
             $img->move(public_path('uploads/posts/'), $name);
             $photo = url('/') . '/public/uploads/posts/' . $name;
         } else {
-            $photo = $row->photo;
+            $photo = url('/') . '/public/adminAssets/ar/images/gallery/dummy.jpg';
         }
 
         $data = Post::where('id', $request->id)->update([
@@ -237,20 +244,26 @@ class PostController extends Controller
         PostAttribute::where('itm_code',$request->itm_code)->delete();
         PostAdditional::where('itm_code',$request->itm_code)->delete();
 
-        foreach ($request->attribute as $key=>$att){
-            if(!empty($att)){
-                PostAttribute::create([
-                    'attribute_id'=>$att,
-                    'attribute_name'=>Attribute::find($att)->title,
-                    'attname'=>$request['attname'][$key],
-                    'attprice'=>$request['attprice'][$key],
-                    'itm_code'=>$request->itm_code
-                ]);
+
+        if(!empty($request->attribute)) {
+
+            foreach ($request->attribute as $key=>$att){
+                if(!empty($att)){
+                    PostAttribute::create([
+                        'attribute_id'=>$att,
+                        'attribute_name'=>Attribute::find($att)->title,
+                        'attname'=>$request['attname'][$key],
+                        'attprice'=>$request['attprice'][$key],
+                        'itm_code'=>$request->itm_code
+                    ]);
+                }
             }
+    
         }
 
+       if(!empty($request->addname)) {
         foreach ($request->addname as $key=>$add){
-            if(!empty($att)){
+            if(!empty($add)){
                 PostAdditional::create([
                     'addname'=>$add,
                     'addprice'=>$request['addprice'][$key],
@@ -258,6 +271,8 @@ class PostController extends Controller
                 ]);
             }
         }
+       }
+
 
         return redirect('admin/products')->with('msg', 'تم بنجاح');
     }
@@ -270,7 +285,8 @@ class PostController extends Controller
             Post::whereIn('id', $request->id)->delete();
             Stock::whereIn('itm_code',$row->itm_code)->delete();
         } catch (\Exception $e) {
-            return response()->json(['msg' => 'Failed']);
+            return 'Error: ' . $e->getMessage();
+            // return response()->json(['msg' => 'Failed']);
         }
         return response()->json(['msg' => 'Success']);
     }

@@ -195,12 +195,12 @@
 
                                             <div class="form-group m-b-0">
                                                 <div>
-                                                    <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
+                                                    {{-- <button type="submit" class="btn btn-primary waves-effect btn-lg waves-light m-r-5">
                                                         حفظ
                                                     </button>
-                                                    <button type="reset" class="btn btn-secondary waves-effect">
+                                                    <button onclick="window.location.href='{{ url('/admin/products') }}'"type="button" class="btn btn-secondary waves-effect">
                                                         الغاء
-                                                    </button>
+                                                    </button> --}}
                                                 </div>
                                             </div>
 
@@ -241,7 +241,7 @@
                                         <label class="required form-label">الاسم </label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="text" name="attname[]" class="form-control mb-2" value="" />
+                                        <input type="text" name="attname[]" class="form-control mb-2" value="" required />
                                         <!--end::Input-->
                                     </div>
 
@@ -250,7 +250,7 @@
                                         <label class="required form-label">التكلفة</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="number" name="attprice[]" class="form-control mb-2" value="" />
+                                        <input type="number" step="any" name="attprice[]" class="form-control mb-2" value="" required />
                                         <!--end::Input-->
                                     </div>
 
@@ -289,7 +289,7 @@
                                         <label class="required form-label">التكلفة</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="number" name="addprice[]" class="form-control mb-2" value="" />
+                                        <input type="number" step="any" name="addprice[]" class="form-control mb-2" value="" />
                                         <!--end::Input-->
                                     </div>
 
@@ -303,6 +303,15 @@
                             </div>
 
                         </div>
+                        <div style="text-align: center;" >
+                            <button type="submit" class="btn btn-primary waves-effect btn-lg waves-light m-r-5">
+                                حفظ
+                            </button>
+                            <button onclick="window.location.href='{{ url('/admin/products') }}'"type="button" class="btn btn-secondary btn-lg waves-effect">
+                                الغاء
+                            </button>
+                        </div>
+
                     </form>
                 </div><!-- container -->
             </div> <!-- Page content Wrapper -->

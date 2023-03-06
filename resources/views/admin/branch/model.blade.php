@@ -41,8 +41,8 @@
     <input type="hidden" value="{{$data->id}}" name="id" />
 
     <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin: 0px .25rem;">Close</button>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin: 0px .25rem;">اغلاق</button>
+        <button type="submit" class="btn btn-primary">حفظ</button>
       </div>
 
 </form>

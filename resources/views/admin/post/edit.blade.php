@@ -188,14 +188,14 @@
                                             <hr>
 
                                             <div class="form-group m-b-0">
-                                                <div>
+                                                {{-- <div>
                                                     <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
                                                         حفظ
                                                     </button>
                                                     <button type="reset" class="btn btn-secondary waves-effect">
                                                         الغاء
                                                     </button>
-                                                </div>
+                                                </div> --}}
                                             </div>
 
                                         </div>
@@ -205,14 +205,7 @@
                                     <input type="hidden" value="{{$data->id}}" name="id"/>
 
                                     <div class="form-group m-b-0">
-                                        <div>
-                                            <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
-                                                حفظ
-                                            </button>
-                                            <button type="reset" class="btn btn-secondary waves-effect">
-                                                الغاء
-                                            </button>
-                                        </div>
+
                                     </div>
 
                                 
@@ -323,6 +316,14 @@
                                 @endforeach
                             </div>
 
+                        </div>
+                        <div style="text-align: center;">
+                            <button type="submit" class="btn btn-primary btn-lg waves-effect waves-light m-r-5">
+                                حفظ
+                            </button>
+                            <button type="reset" class="btn btn-secondary btn-lg waves-effect">
+                                الغاء
+                            </button>
                         </div>
                     </form>
                 </div><!-- container -->

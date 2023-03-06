@@ -125,14 +125,14 @@
                             <div class="col-lg-6">
 
                                 <div class="form-group">
-                                    <label for="example-text-input" class="col-sm-12 col-form-label">Meta Keywords</label>
+                                    <label for="example-text-input" class="col-sm-12 col-form-label">الكلمات الدلالية</label>
                                     <div class="col-sm-12">
                                         <input class="form-control" type="text" value="" name="meta_keywords">
                                     </div>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="example-text-input" class="col-sm-12 col-form-label">Meta Description</label>
+                                    <label for="example-text-input" class="col-sm-12 col-form-label">الوصف</label>
                                     <div class="col-sm-12">
                                         <input class="form-control" type="text" value="" name="meta_description">
                                     </div>
@@ -142,7 +142,7 @@
                                     <label class="pull-right">صورة القسم</label>
                                     <input type="file" class="filestyle" name="photo" id="photo_link" data-buttonname="btn-secondary">
                                     <br>
-                                        <img class="img-thumbnail" id="get_photo_link" style="width: 200px;" src="https://via.placeholder.com/200x150/EFEFEF/AAAAAA&amp;text=no+image/200x150/EFEFEF/AAAAAA&amp;text=no+image" data-holder-rendered="true">
+                                        <img class="img-thumbnail" id="get_photo_link" style="width: 200px;" src="{{ URL::asset('public/adminAssets\ar\images\gallery\dummy.jpg') }}" data-holder-rendered="true">
                                 </div>
 
                             </div>

@@ -113,6 +113,7 @@ return [
     'string' => 'يجب أن يكون :attribute نصًا.',
     'timezone' => 'يجب أن يكون :attribute نطاقًا زمنيًا صحيحًا.',
     'unique' => 'قيمة :attribute مُستخدمة من قبل.',
+    // 'unique' => 'قيمة :attribute مُستخدمة من قبل.',
     'uploaded' => 'فشل في تحميل الـ :attribute.',
     'url' => 'صيغة الرابط :attribute غير صحيحة.',
     'uuid' => ':attribute يجب أن يكون بصيغة UUID سليمة.',
