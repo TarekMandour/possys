@@ -228,7 +228,7 @@
                                         <!--begin::Label-->
                                         <label class="required form-label">الخصائص </label>
                                         <!--end::Label-->
-                                        <select class="form-control select2" onchange="myFunction()" id="itm_unit1" name="attribute[]" required>
+                                        <select class="form-control select2" onchange="myFunction()" id="itm_unit1" name="attribute[]">
                                             <option value="">---</option>
                                             @foreach (App\Models\Attribute::get() as $item=>$attri)
                                                 <option value="{{$attri->id}}">{{$attri->title}}</option>
@@ -241,7 +241,7 @@
                                         <label class="required form-label">الاسم </label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="text" name="attname[]" class="form-control mb-2" value="" required />
+                                        <input type="text" name="attname[]" class="form-control mb-2" value="" />
                                         <!--end::Input-->
                                     </div>
 
@@ -250,7 +250,7 @@
                                         <label class="required form-label">التكلفة</label>
                                         <!--end::Label-->
                                         <!--begin::Input-->
-                                        <input type="number" step="any" name="attprice[]" class="form-control mb-2" value="" required />
+                                        <input type="number" step="any" name="attprice[]" class="form-control mb-2" value="" />
                                         <!--end::Input-->
                                     </div>
 

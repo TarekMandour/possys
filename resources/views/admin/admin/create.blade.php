@@ -122,7 +122,7 @@
                                         <div class="form-group text-center">
                                             <label class="pull-right">صورة البروفايل</label>
                                             <input type="file" class="filestyle" name="profile" id="photo_link"
-                                                   data-buttonname="btn-secondary">
+                                                   data-buttonname="btn-secondary" value="{{ old('profile') }}" >
                                             <br>
                                             <img class="img-thumbnail" id="get_photo_link" style="width: 200px;"
                                                  src="{{ URL::asset('public/adminAssets\ar\images\gallery\dummy.jpg') }}"
@@ -136,7 +136,7 @@
                                         <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
                                             حفظ
                                         </button>
-                                        <button type="reset" class="btn btn-secondary waves-effect">
+                                        <button onclick="window.location.href='{{ url('/admin/admins') }}'"type="button" class="btn btn-secondary waves-effect">
                                             الغاء
                                         </button>
                                     </div>

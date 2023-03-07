@@ -38,7 +38,7 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="col-sm-12 col-form-label">رقم الجوال</label>
                                     <div class="col-sm-12">
-                                        <input class="form-control" type="text" value="{{ $data->phone }}" name="phone" required>
+                                        <input class="form-control" minlength="6" pattern="[0-9]*" value="{{ $data->phone }}" name="phone" required>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -80,7 +80,7 @@
                                 <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
                                     حفظ
                                 </button>
-                                <button type="reset" class="btn btn-secondary waves-effect">
+                                <button onclick="window.location.href='{{ url('/admin/clients') }}'"type="button" class="btn btn-secondary waves-effect">
                                     الغاء
                                 </button>
                             </div>

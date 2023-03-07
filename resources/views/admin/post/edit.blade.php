@@ -321,7 +321,7 @@
                             <button type="submit" class="btn btn-primary btn-lg waves-effect waves-light m-r-5">
                                 حفظ
                             </button>
-                            <button type="reset" class="btn btn-secondary btn-lg waves-effect">
+                            <button onclick="window.location.href='{{ url('/admin/products') }}'"type="button" class="btn btn-secondary btn-lg waves-effect">
                                 الغاء
                             </button>
                         </div>

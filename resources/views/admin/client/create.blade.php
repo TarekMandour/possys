@@ -15,12 +15,13 @@
                         <div class="card-body">
 
                             @if ($errors->any())
-                                <div class="alert alert-danger mb-0">
-                                    @foreach ($errors->all() as $error)
-                                        <p>{{ $error }}</p>
-                                    @endforeach
-                                </div>
-                            @endif
+                            <div class="alert alert-danger mb-0">
+                                @foreach ($errors->all() as $error)
+                                    <p>{{ $error }}</p>
+                                @endforeach
+                            </div>
+                        @endif
+
 
                             <form action="{{ route('admin.create_client.submit') }}" method="post"
                                   enctype="multipart/form-data">
@@ -39,10 +40,9 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="example-text-input" class="col-sm-12 col-form-label">رقم
-                                                الجوال</label>
+                                            <label for="example-text-input" class="col-sm-12 col-form-label">رقم الجوال (ارقام فقط)</label>
                                             <div class="col-sm-12">
-                                                <input class="form-control" type="text" value="{{ old('phone') }}"
+                                                <input class="form-control" minlength="6" pattern="[0-9]*" value="{{ old('phone') }}"
                                                        name="phone" required>
                                             </div>
                                         </div>
@@ -52,7 +52,7 @@
                                                    class="col-sm-12 col-form-label">المدينة</label>
                                             <div class="col-sm-12">
                                                 <input class="form-control" type="text" value="{{ old('city') }}"
-                                                       name="city">
+                                                       name="city" required>
                                             </div>
                                         </div>
 
@@ -61,7 +61,7 @@
                                                    class="col-sm-12 col-form-label">العنوان</label>
                                             <div class="col-sm-12">
                                                 <input class="form-control" type="text" value="{{ old('address') }}"
-                                                       name="address">
+                                                       name="address" required>
                                             </div>
                                         </div>
 
@@ -70,7 +70,7 @@
                                                 الالكتروني</label>
                                             <div class="col-sm-12">
                                                 <input class="form-control" type="email" parsley-type="email"
-                                                       value="{{ old('email') }}" name="email">
+                                                       value="{{ old('email') }}" name="email" required>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -90,7 +90,7 @@
                                         <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
                                             حفظ
                                         </button>
-                                        <button type="reset" class="btn btn-secondary waves-effect">
+                                        <button onclick="window.location.href='{{ url('/admin/clients') }}'"type="button" class="btn btn-secondary waves-effect">
                                             الغاء
                                         </button>
                                     </div>

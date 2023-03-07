@@ -53,14 +53,26 @@ class AdminController extends Controller
 
         if ($request->type != 0) {
             if (!$request->branch_id || $request->branch_id == null) {
-                return redirect()->back()->with('error', 'الفرع مطلوب');
+                return redirect()->back()->withInput()->with('error', 'الفرع مطلوب');
             }
         }
+
+            if (strlen($request->password1) < 6) {
+                return redirect()->back()->withInput()->with('error', 'عفوا كلمة المرور اقل من 6 احرف');
+            } else {
+                $password = Hash::make($request->password1);
+            }
+
+            if ($request->password1 != $request->password2) {
+                return redirect()->back()->withInput()->with('error', 'عفوا تاكيد كلمة المرور خطأ');
+            }
+
+
         $data = Admin::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'password' => Hash::make($request->password1),
+            'password' => $password,
             'photo' => $profile,
             'is_active' => $request->is_active,
         ]);

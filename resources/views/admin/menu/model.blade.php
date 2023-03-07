@@ -35,14 +35,14 @@
         <div class="col-lg-6">
 
             <div class="form-group">
-                <label for="example-text-input" class="col-sm-12 col-form-label">الكلمات الدلالية</label>
+                <label for="example-text-input" class="col-sm-12 col-form-label">Meta Keywords</label>
                 <div class="col-sm-12">
                     <input class="form-control" type="text" value="{{ $data->meta_keywords }}" name="meta_keywords">
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="example-text-input" class="col-sm-12 col-form-label">الوصف</label>
+                <label for="example-text-input" class="col-sm-12 col-form-label">Meta Description</label>
                 <div class="col-sm-12">
                     <input class="form-control" type="text" value="{{ $data->meta_description }}" name="meta_description">
                 </div>

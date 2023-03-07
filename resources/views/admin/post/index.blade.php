@@ -121,6 +121,7 @@
 @section('script-bottom')
 <script>
     $(document).ready(function() {
+
         $('#datatable').DataTable({
             ordering: false
         });
@@ -165,54 +166,57 @@
 
     });
 
-    $("#btn_delete").click(function(event){
-        event.preventDefault();
-        var checkIDs = $("#tech-companies-1 input:checkbox:checked").map(function(){
-        return $(this).val();
-        }).get(); // <----
+                $("#btn_delete").click(function (event) {
+                    event.preventDefault();
+                    var checkIDs = $("#tech-companies-1 input:checkbox:checked").map(function () {
+                        return $(this).val();
+                    }).get(); // <----
 
-        if (checkIDs.length > 0) {
-            var token = $(this).data("token");
+                    if (checkIDs.length > 0) {
+                        var token = $(this).data("token");
 
-            Swal.fire({
-                title: 'هل انت متأكد ؟',
-                text: "لا يمكن استرجاع البيانات المحذوفه",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger m-l-10',
-                confirmButtonText: 'موافق',
-                cancelButtonText: 'لا'
-            }).then(function (isConfirm) {
-                if (isConfirm.value) {
-                    $.ajax(
-                    {
-                        url: "{{route('admin.delete_post')}}",
-                        type: 'post',
-                        dataType: "JSON",
-                        data: {
-                            "id": checkIDs,
-                            "_method": 'post',
-                            "_token": token,
-                        },
-                        success: function (data) {
-                            if(data.msg == "Success") {
-                                location.reload();
-                                alertify.success("تم بنجاح");
+                        Swal.fire({
+                            title: 'هل انت متأكد ؟',
+                            text: "لا يمكن استرجاع البيانات المحذوفه",
+                            type: 'warning',
+                            showCancelButton: true,
+                            confirmButtonClass: 'btn btn-success',
+                            cancelButtonClass: 'btn btn-danger m-l-10',
+                            confirmButtonText: 'موافق',
+                            cancelButtonText: 'لا'
+                        }).then(function (isConfirm) {
+                            if (isConfirm.value) {
+                                $.ajax(
+                                    {
+                                        url: "{{route('admin.delete_post')}}",
+                                        type: 'post',
+                                        dataType: "JSON",
+                                        data: {
+                                            "id": checkIDs,
+                                            "_method": 'post',
+                                            "_token": token,
+                                        },
+                                        success: function (data) {
+                                            if (data.msg == "Success") {
+                                                location.reload();
+                                                alertify.success("تم بنجاح");
+                                            } else {
+                                                alertify.error("عفوا ! حدث خطأ ما");
+                                            }
+                                        },
+                                        fail: function(xhr, status, error) {
+    console.log(xhr.responseText);
+    console.log(status);
+    console.log(error);
+}
+                                    });
                             } else {
-                                alertify.error("عفوا ! حدث خطأ ما");
+                                console.log(isConfirm);
                             }
-                        },
-                        fail: function(xhrerrorThrown){
+                        });
+                    }
 
-                        }
-                    });
-                } else {
-                    console.log(isConfirm);
-                }
-            });
-        }
+                });
 
-    });
 </script>
 @endsection

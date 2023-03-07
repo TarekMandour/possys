@@ -140,13 +140,12 @@
                         success: function (data) {
                             if(data.msg == "Success") {
                                 location.reload();
-                                alertify.success("تم بنجاح");
                             } else {
                                 alertify.error("عفوا ! حدث خطأ ما");
                             }
                         },
                         fail: function(xhrerrorThrown){
-
+                            console.log("hello");
                         }
                     });
                 } else {
@@ -157,4 +156,26 @@
 
     });
 </script>
+
+@php $msg=session()->get("msg"); @endphp
+@if( session()->has("msg"))
+    @if( $msg == "Success")
+        <script>
+            alertify.defaults = {
+                autoReset:true,
+                basic:false,
+                notifier:{
+                    position:'top-center'
+
+                }
+            };
+
+            alertify.success("تم بنجاح");
+        </script>
+    @elseif ( $msg == "Failed")
+        <script>
+            alertify.error("عفوا ! حدث خطأ ما");
+        </script>
+    @endif
+@endif
 @endsection

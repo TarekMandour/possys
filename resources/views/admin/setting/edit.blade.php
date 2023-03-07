@@ -22,6 +22,13 @@
                                 </div>
                             @endif
 
+                                                
+                    @if (session()->has('msg'))
+                    <div class="alert alert-success">
+                            {{session()->get('msg')}}
+                    </div>
+                @endif
+
                             <form action="{{ route('admin.edit_setting.submit') }}" method="post"
                                   enctype="multipart/form-data">
 
@@ -31,7 +38,7 @@
                                         <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
                                             حفظ
                                         </button>
-                                        <button type="reset" class="btn btn-secondary waves-effect">
+                                        <button onclick="window.location.href='{{ url('/admin') }}'"type="button" class="btn btn-secondary waves-effect">
                                             الغاء
                                         </button>
                                     </div>

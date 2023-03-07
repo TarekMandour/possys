@@ -152,7 +152,7 @@ class SettingController extends Controller
             'website_type'=>$request->website_type,
         ]);
 
-        return redirect('admin/edit_setting/1')->with('msg', 'Success');
+        return redirect('admin/edit_setting/1')->with('msg', 'تم بنجاح');
     }
 
     public function delete(Request $request)

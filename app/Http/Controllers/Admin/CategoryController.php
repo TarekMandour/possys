@@ -102,7 +102,9 @@ class CategoryController extends Controller
         } catch (\Exception $e) {
             return response()->json(['msg'=>'Failed']);
         }
-        return response()->json(['msg'=>'Success']);
+        // session()->flash('msg', 'Success');
+
+        return back()->with('msg', 'Success');
     }
 
 }

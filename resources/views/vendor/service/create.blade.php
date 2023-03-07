@@ -70,13 +70,13 @@
                                             <img class="img-thumbnail" id="get_photo_link" style="width: 200px;" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&amp;text=no+image" data-holder-rendered="true">
                                         </div>
                                         <div class="form-group">
-                                            <label for="example-text-input" class="col-sm-12 col-form-label">الكلمات الدلالية</label>
+                                            <label for="example-text-input" class="col-sm-12 col-form-label">Meta Keywords</label>
                                             <div class="col-sm-12">
                                                 <input class="form-control" type="text" value="{{ old('meta_keywords') }}" name="meta_keywords">
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="example-text-input" class="col-sm-12 col-form-label">الوصف</label>
+                                            <label for="example-text-input" class="col-sm-12 col-form-label">Meta Description</label>
                                             <div class="col-sm-12">
                                                 <input class="form-control" type="text" value="{{ old('meta_description') }}" name="meta_description">
                                             </div>

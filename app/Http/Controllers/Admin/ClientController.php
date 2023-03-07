@@ -49,9 +49,11 @@ class ClientController extends Controller
             'name' => 'required|string',
             'address' => 'nullable',
             'location' => 'nullable',
-            'email' => 'nullable',
-            'phone' => 'required|string|unique:clients',
+            'email' => 'nullable|unique:clients',
+            'phone' => 'required|string|unique:clients|min:11',
             'profile' => 'image|mimes:png,jpg,jpeg|max:2048'
+        ], [
+            'email.unique' => 'الايميل مُستخدم من قبل',
         ]);
 
         if ($img = $request->file('profile')) {
@@ -91,7 +93,7 @@ class ClientController extends Controller
             'address' => 'nullable',
             'location' => 'nullable',
             'email' => 'nullable',
-            'phone' => 'required|string',
+            'phone' => 'required|string|min:11',
             'profile' => 'image|mimes:png,jpg,jpeg|max:2048'
         ]);
 

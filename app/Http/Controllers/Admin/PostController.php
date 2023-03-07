@@ -130,29 +130,34 @@ class PostController extends Controller
             $stock->branch_id = 1;
             $stock->save();
 
-            foreach ($request->attribute as $key=>$att){
-                if(!empty($att)){
-                    PostAttribute::create([
-                        'attribute_id'=>$att,
-                        'attribute_name'=>Attribute::find($att)->title,
-                        'attname'=>$request['attname'][$key],
-                        'attprice'=>$request['attprice'][$key],
-                        'itm_code'=>$data->itm_code
-                    ]);
-                } else {
 
+            if(!empty($request->attribute)) {
+                foreach ($request->attribute as $key=>$att){
+                    if(!empty($att)){
+                        PostAttribute::create([
+                            'attribute_id'=>$att,
+                            'attribute_name'=>Attribute::find($att)->title,
+                            'attname'=>$request['attname'][$key],
+                            'attprice'=>$request['attprice'][$key],
+                            'itm_code'=>$data->itm_code
+                        ]);
+                    }
+                }
+
+            }
+
+            if(!empty($request->addname)) {
+                foreach ($request->addname as $key=>$add){
+                    if(!empty($add)){
+                        PostAdditional::create([
+                            'addname'=>$add,
+                            'addprice'=>$request['addprice'][$key],
+                            'itm_code'=>$data->itm_code
+                        ]);
+                    }
                 }
             }
 
-            foreach ($request->addname as $key=>$add){
-                if(!empty($add)){
-                    PostAdditional::create([
-                        'addname'=>$add,
-                        'addprice'=>$request['addprice'][$key],
-                        'itm_code'=>$data->itm_code
-                    ]);
-                }
-            }
 
         } catch (\Exception $e) {
             echo 'Error: ' . $e->getMessage();
@@ -282,11 +287,11 @@ class PostController extends Controller
 
         try {
             $row = Post::find($request->id);
+            Stock::whereIn('itm_code', $row->itm_code)->delete();
             Post::whereIn('id', $request->id)->delete();
-            Stock::whereIn('itm_code',$row->itm_code)->delete();
+
         } catch (\Exception $e) {
-            return 'Error: ' . $e->getMessage();
-            // return response()->json(['msg' => 'Failed']);
+            return response()->json(['msg' => 'Failed']);
         }
         return response()->json(['msg' => 'Success']);
     }

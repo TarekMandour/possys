@@ -28,7 +28,9 @@ class SupplierController extends Controller
 
         $this->validate(request(), [
             'title' => 'required|string',
-            'phone' => 'required'
+            'phone' => 'required|unique:suppliers'
+        ], [
+            'phone.unique' => 'رقم الجوال مُستخدم من قبل',
         ]);
 
         $data = new Supplier;

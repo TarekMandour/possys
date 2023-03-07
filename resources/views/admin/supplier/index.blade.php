@@ -24,6 +24,15 @@
             <div class="card m-b-20">
                 <div class="card-body">
 
+                    @if ($errors->any())
+                    <div class="alert alert-danger mb-0">
+                        @foreach ($errors->all() as $error)
+                            <p>{{ $error }}</p>
+                        @endforeach
+                    </div>
+                @endif
+
+
                     <div class="m-b-30">
                         <a href="{{ url('/admin/create_admin/') }}" class="btn btn-purple waves-effect waves-light" data-toggle="modal" data-target="#addModel" role="button">اضف جديد</a>
                         <a href="#" id="btn_delete" data-token="{{ csrf_token() }}" class="btn btn-danger waves-effect waves-light" role="button">حذف</a>
@@ -96,9 +105,9 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="example-text-input" class="col-sm-12 col-form-label">رقم الجوال </label>
+                                    <label for="example-text-input" class="col-sm-12 col-form-label">رقم الجوال (ارقام فقط)</label>
                                     <div class="col-sm-12">
-                                        <input class="form-control" type="text" value="" name="phone" required>
+                                        <input class="form-control" type="text" minlength="6" pattern="[0-9]*" value="" name="phone" required>
                                     </div>
                                 </div>
 
