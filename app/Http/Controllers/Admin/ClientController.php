@@ -50,7 +50,7 @@ class ClientController extends Controller
             'address' => 'nullable',
             'location' => 'nullable',
             'email' => 'nullable|unique:clients',
-            'phone' => 'required|string|unique:clients|min:11',
+            'phone' => 'required|string|unique:clients|min:6',
             'profile' => 'image|mimes:png,jpg,jpeg|max:2048'
         ], [
             'email.unique' => 'الايميل مُستخدم من قبل',

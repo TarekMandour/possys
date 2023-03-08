@@ -17,13 +17,13 @@
             <div class="form-group">
                 <label for="example-text-input" class="col-sm-12 col-form-label">رقم الجوال</label>
                 <div class="col-sm-12">
-                    <input class="form-control" type="text" value="{{ $data->phone }}" name="phone">
+                    <input class="form-control" type="text" value="{{ $data->phone }}" name="phone" required>
                 </div>
             </div>
             <div class="form-group">
                 <label for="example-text-input" class="col-sm-12 col-form-label">العنوان</label>
                 <div class="col-sm-12">
-                    <input class="form-control" type="text" value="{{ $data->address }}" name="address">
+                    <input class="form-control" type="text" value="{{ $data->address }}" name="address" required>
                 </div>
             </div>
             <div class="form-group">

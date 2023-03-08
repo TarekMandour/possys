@@ -287,7 +287,7 @@ class PostController extends Controller
 
         try {
             $row = Post::find($request->id);
-            Stock::whereIn('itm_code', $row->itm_code)->delete();
+            Stock::where('itm_code', $row->itm_code)->delete();
             Post::whereIn('id', $request->id)->delete();
 
         } catch (\Exception $e) {

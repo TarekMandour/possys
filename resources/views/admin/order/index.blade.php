@@ -40,7 +40,7 @@
                                             <div class="form-group">
                                                 <div class="col-sm-12">
                                                     <input class="form-control" type="text" value="" placeholder="رقم الفاتورة"
-                                                           name="order_id">
+                                                         id="order_id"  name="order_id">
                                                 </div>
                                             </div>
                                         </div>

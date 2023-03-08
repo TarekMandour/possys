@@ -68,7 +68,7 @@ class InventoryController extends Controller
     {
 
         try {
-            Inventory::whereIn('id', $request->id)->delete();
+            Inventory::where('id', $request->id)->delete();
         } catch (\Exception $e) {
             return response()->json(['msg' => 'Failed']);
         }

@@ -247,8 +247,12 @@
                         },
                         success: function (data) {
                             if(data.msg == "Success") {
+                                alertify.success("تم بنجاح");
+
                                 location.reload();
                             } else {
+                                alertify.error("عفوا ! حدث خطأ ما");
+
                             }
                         },
                         fail: function(xhrerrorThrown){
