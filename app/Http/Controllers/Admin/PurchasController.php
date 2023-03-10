@@ -37,11 +37,16 @@ class PurchasController extends Controller
     {
         $data = Purchas::orderBy('id', 'desc');
 
+        $time_to = 4105360822;
+        $time_from = 949600822;
         
         if(!empty($request->sdate) && !empty($request->to_date)){
             $data = $data->whereBetween('created_at', [date('Y-m-d H:m:s',strtotime( $request->sdate )) , date('Y-m-d H:m:s',strtotime( $request->to_date ))]);
+        } else if (!empty($request->sdate)) {
+            $data = $data->whereBetween('created_at', [date('Y-m-d H:m:s',strtotime( $request->sdate )) , date('Y-m-d H:m:s', $time_to)]);   
+        } else if (!empty($request->to_date)) {
+            $data = $data->whereBetween('created_at', [date('Y-m-d H:m:s',949600822) , date('Y-m-d H:m:s', strtotime( $request->to_date ))]);   
         }
-
         if($request->order_id){
             $data = $data->where('order_id', $request->order_id);
         }

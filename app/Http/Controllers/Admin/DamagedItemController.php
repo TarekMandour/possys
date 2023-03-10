@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\DamagedItem;
 use App\Models\Branch;
 use App\Models\Post;
+use App\Models\Stock;
 use Auth;
 
 class DamagedItemController extends Controller
@@ -59,6 +60,17 @@ class DamagedItemController extends Controller
         $product = Post::where('itm_code', $request->itm_code)->first();
         $branch = Branch::find($request->branch_id);
 
+        $stock = Stock::where('itm_code', $request->itm_code)->first();
+
+        if($stock->qty != 0 && $stock->qty >= $request->qty) {
+            $stock->qty =  $stock->qty - $request->qty;
+            $data2 = Stock::where('itm_code', $request->itm_code)->update([
+                'qty' => $stock->qty
+            ]);
+        } else {
+            return redirect()->back()->with('msg', 'Failed');
+        }
+
         $data = new DamagedItem;
         $data->product = $product;
         $data->qty = $request->qty;
@@ -68,6 +80,7 @@ class DamagedItemController extends Controller
         $data->branch_name = $branch->name;
 
         try {
+
             $data->save();
         } catch (Exception $e) {
             return redirect('admin/damageditem')->with('msg', 'Failed');
