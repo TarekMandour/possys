@@ -168,7 +168,7 @@
                                 <div class="form-group">
                                     <label for="example-text-input" class="col-sm-12 col-form-label">تاريخ السند</label>
                                     <div class="col-sm-8">
-                                        <input type="date" class="form-control" name="trans_date" required/>
+                                        <input type="date" class="form-control" name="trans_date" id="datePickerId" required/>
                                     </div>
                                 </div>
 
@@ -251,6 +251,8 @@
                 info: false
             });
         });
+
+        datePickerId.max = new Date().toISOString().split("T")[0];
 
         $(".edit-Advert").click(function () {
             var id = $(this).data('id')

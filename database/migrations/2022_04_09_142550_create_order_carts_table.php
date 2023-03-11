@@ -14,7 +14,7 @@ class CreateOrderCartsTable extends Migration
     public function up()
     {
         Schema::create('order_carts', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
             $table->timestamps();
         });
     }

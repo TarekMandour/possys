@@ -14,7 +14,11 @@ class CreateBonusesTable extends Migration
     public function up()
     {
         Schema::create('bonuses', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->integer('admin_id');
+            $table->bigInteger('pro_id');
+            $table->float('percent');
+            $table->longText('product')->nullable();
             $table->timestamps();
         });
     }

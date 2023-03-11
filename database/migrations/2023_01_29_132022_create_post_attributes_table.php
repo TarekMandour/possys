@@ -14,7 +14,8 @@ class CreatePostAttributesTable extends Migration
     public function up()
     {
         Schema::create('post_attributes', function (Blueprint $table) {
-            $table->id();
+            $table->increments('id');
+            $table->string('title');
             $table->timestamps();
         });
     }

@@ -17,8 +17,16 @@ class CreateClientsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('phone')->unique();
             $table->string('password');
+            $table->text('photo')->nullable();
+            $table->tinyInteger('is_active');
+            $table->integer('code')->nullable();
             $table->rememberToken();
+            $table->string('city')->nullable();
+            $table->string('address')->nullable();
+            $table->string('location')->nullable();
+            $table->string('api_token')->nullable();
             $table->timestamps();
         });
     }

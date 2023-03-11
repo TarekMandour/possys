@@ -52,29 +52,37 @@ class VouchersController extends Controller
         $data->type = $request->type;
         $data->amount = $request->amount;
         $data->notes = $request->notes;
-        $wallet = new Wallet();
+        
         if ($request->user_type == "external") {
             $data->external_name = $request->external_name;
         } else if ($request->user_type == "client") {
+            $wallet = new Wallet();
             $client = Client::whereId($request->user_id)->first();
             $data->external_name = $client->name;
             $wallet->type = "client";
         } else {
+            $wallet = new Wallet();
             $client = Supplier::whereId($request->user_id)->first();
             $data->external_name = $client->title;
             $wallet->type = "supplier";
         }
+
         $data->save();
 
-        $wallet->walletable()->associate($client);
-        $wallet->trans_date = $request->trans_date;
-        $wallet->notes = $request->notes;
-        if ($request->type == "receipt") {
-            $wallet->in = $request->amount;
-        } else {
-            $wallet->out = $request->amount;
+        if($request->user_type != "external") {
+            $wallet->walletable()->associate($client);
+            $wallet->trans_date = $request->trans_date;
+            $wallet->notes = $request->notes;
+            if ($request->type == "receipt") {
+                $wallet->in = $request->amount;
+            } else {
+                $wallet->out = $request->amount;
+            }
+            $wallet->save();
+    
         }
-        $wallet->save();
+
+
 
 
         return redirect()->back()->with('msg', 'Success');

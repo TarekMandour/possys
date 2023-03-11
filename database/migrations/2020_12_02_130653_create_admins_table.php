@@ -21,8 +21,11 @@ class CreateAdminsTable extends Migration
             $table->string('password');
             $table->text('photo')->nullable();
             $table->tinyInteger('is_active');
-            $table->rememberToken();
+            $table->rememberToken()->nullable();
             $table->timestamps();
+            $table->tinyInteger('type')->default(0);
+            $table->bigInteger('branch_id')->unsigned()->unique()->nullable();
+            $table->string('api_token')->nullable();
         });
     }
 
