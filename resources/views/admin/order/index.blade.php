@@ -88,12 +88,12 @@
                                         <div class="col-sm-4 row">
                                             <label for="sdate" class="col-sm-4">من تاريخ</label>
                                             <input class="form-control col-sm-8" type="date" value=""
-                                                   name="sdate" id="sdate">
+                                                   name="sdate" id="sdate" required>
                                         </div>
                                         <div class="col-sm-4 row">
                                             <label for="to_date" class="col-sm-4">الى تاريخ</label>
                                             <input class="form-control col-sm-8" type="date" value=""
-                                                   name="to_date" id="to_date">
+                                                   name="to_date" id="to_date" required>
                                         </div>
         
         
@@ -203,6 +203,7 @@
                                 {data: 'actions', name: 'actions', "searchable": false, "orderable": false},
                             ]
                         });
+
                     }
 
                     $('#filter').click(function(){

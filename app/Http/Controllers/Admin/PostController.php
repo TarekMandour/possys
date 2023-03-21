@@ -201,6 +201,7 @@ class PostController extends Controller
 
     public function update(Request $request)
     {
+
         $this->validate($request, [
             'title' => 'required|string',
             'itm_code' => 'required|numeric|unique:posts,itm_code,'.$request->id,
@@ -285,8 +286,9 @@ class PostController extends Controller
     public function delete(Request $request)
     {
 
+        $row = Post::where('id', $request->id)->get()->first();
+
         try {
-            $row = Post::find($request->id);
             Stock::where('itm_code', $row->itm_code)->delete();
             Post::whereIn('id', $request->id)->delete();
 

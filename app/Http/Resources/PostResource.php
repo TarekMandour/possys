@@ -36,7 +36,7 @@ class PostResource extends JsonResource
             'photo' => $this->photo,
             'cat_id' => $this->cat_id,
             'is_show' => $this->is_show,
-            'is_tax' => $this->itm_code,
+            'is_tax' => $this->is_tax,
             'itm_unit1' => $this->itm_unit1,
             'itm_unit2' => $this->itm_unit2,
             'itm_unit3' => $this->itm_unit3,

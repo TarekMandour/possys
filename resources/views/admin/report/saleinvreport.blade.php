@@ -110,7 +110,7 @@
                                     </td>
                                     <td>{{$row[0]->total_tax}}</td>
                                     <td>{{$row[0]->total_sub + $row[0]->total_tax}}</td>
-                                    <td>{{Carbon\Carbon::parse($row[0]->sdate)}}</td>
+                                    <td>{{ date('y-m-d', strtotime($row[0]->sdate))}}</td>
                                     @php
                                         $total_tax += $row[0]->total_tax;
                                         $total_sub += $row[0]->total_sub;

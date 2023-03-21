@@ -43,7 +43,7 @@ class OrderController extends Controller
 
     public function datatable(Request $request)
     {
-        $data = Order::orderBy('id', 'desc');
+        $data = Order::select('id','itm_code','order_type','order_id', 'branch','client_id','total_sub','total_tax','created_at')->orderBy('id', 'desc');
 
         $time_to = 4105360822;
         $time_from = 949600822;
@@ -89,46 +89,50 @@ class OrderController extends Controller
             }
         }
 
+        $data = $data->get()->groupBy('order_id'); 
+
         return Datatables::of($data)
             ->addColumn('id', function ($row) {
                 $id = '';
-                $id .= '<a href="'.url('/admin/show_order/'.$row->order_id).'">'.$row->order_id.'</a>';
+                $id .= '<a href="'.url('/admin/show_order/'.$row[0]->order_id).'">'.$row[0]->order_id.'</a>';
                 return $id;
             })
             ->editColumn('branch', function ($row) {
                 $branch = '';
-                $branch .= ' <span class="text-gray-800 text-hover-primary mb-1">' . json_decode($row->branch)->name . '</span>';
+                $branch .= ' <span class="text-gray-800 text-hover-primary mb-1">' . json_decode($row[0]->branch)->name . '</span>';
                 return $branch;
             })
             ->editColumn('total_sub', function ($row) {                
                 $total_sub = '';
-                $total_sub .= ' <span class="text-gray-800 text-hover-primary mb-1">' . $row->total_sub . '</span>';
+                $total_sub .= ' <span class="text-gray-800 text-hover-primary mb-1">' . $row[0]->total_sub . '</span>';
                 return $total_sub;
             })
             ->editColumn('total_tax', function ($row) {
                 $total_tax = '';
-                $total_tax .= ' <span class="text-gray-800 text-hover-primary mb-1">' . $row->total_tax . '</span>';
+                $total_tax .= ' <span class="text-gray-800 text-hover-primary mb-1">' . $row[0]->total_tax . '</span>';
                 return $total_tax;
             })
             ->editColumn('total', function ($row) {
                 $total = '';
-                $total .= ' <span class="text-gray-800 text-hover-primary mb-1">' . ($row->total_sub + $row->total_tax) . '</span>';
+                $total .= ' <span class="text-gray-800 text-hover-primary mb-1">' . ($row[0]->total_sub + $row[0]->total_tax) . '</span>';
                 return $total;
             })
             ->editColumn('created_at', function ($row) {
                 $created_at = '';
-                $created_at .= ' <span class="text-gray-800 text-hover-primary mb-1">' . date('y-m-d | h:i a', strtotime($row->created_at)) . '</span>';
+                $created_at .= ' <span class="text-gray-800 text-hover-primary mb-1">' . date('y-m-d | h:i a', strtotime($row[0]->created_at)) . '</span>';
                 return $created_at;
             })
             ->addColumn('actions', function ($row) {
                 $actions = '';
-                $actions .= '<a href="'.url('/admin/show_order/'.$row->order_id).'"
+                $actions .= '<a href="'.url('/admin/show_order/'.$row[0]->order_id).'"
                 class="btn btn-info btn-sm waves-effect waves-light"><i
                      class="ti-pencil-alt"></i></a>';
                 return $actions;
 
             })
+
             ->rawColumns(['actions', 'branch', 'id', 'total_sub', 'total_tax', 'total', 'created_at'])
+            
             ->make();
 
             
@@ -156,7 +160,7 @@ class OrderController extends Controller
             $filter->where('order_type', $ordertyp);
         }
 
-        if ($request->sdate) {
+        if ($request->sdate && $request->to_date) {
             $filter->whereBetween(\DB::raw('DATE(sdate)'), array($request->sdate, $request->to_date));
 
         }
@@ -242,11 +246,27 @@ class OrderController extends Controller
         $product = Post::select('title_en', 'itm_unit1', 'is_tax')->orderBy('id', 'desc')->with('Unit1')->where('itm_code', $request->itm_code)->first();
         if ($request->order_type == 1) {
             $stock = Stock::orderBy('id', 'desc')->where('itm_code', $request->itm_code)->where('branch_id', $request->branch_id)->first();
+            $pro_return = Order::where('order_type', 0)->where('itm_code', $request->itm_code)->where('order_id', $request->order_return)->sum('qty');
+            $prcart = OrderCart::where('itm_code', $request->itm_code)->where('emp_id', Auth::user()->id)->sum('qty');
+
+            if ($pro_return == 0) {
+                return response()->json(['msg' => 'faild']);
+            }
         } else {
             $stock = Stock::orderBy('id', 'desc')->where('itm_code', $request->itm_code)->where('branch_id', $request->branch_id)->where('qty', '>', 0)->first();
+            $prcart = OrderCart::where('itm_code', $request->itm_code)->where('emp_id', Auth::user()->id)->sum('qty');
         }
 
         if ($product && $stock) {
+            if ($request->order_type == 1) {
+                if (($prcart + 1) > $pro_return) {
+                    return response()->json(['msg' => 'faild']);
+                }
+            } else {
+                if (($prcart + 1) > $stock->qty) {
+                    return response()->json(['msg' => 'faild']);
+                }
+            }
 
             $data = new OrderCart;
             $data->emp_id = Auth::user()->id;
@@ -300,6 +320,10 @@ class OrderController extends Controller
             $stock = Stock::where('itm_code', $request->itm_code)->where('branch_id', $request->branch_id)->where('expiry_date', null)->get()->last();
         }
 
+        if (($request->qty) > $stock->qty) {
+            session()->flash('qty_faild', "عفوا ، المنتج غير متوفر");
+            return view('admin.order.cart_data');
+        }
 
         $unit = Unit::find($request->unit_id);
 
@@ -732,29 +756,34 @@ class OrderController extends Controller
     public function return_order($id)
     {
         $orders = Order::where('order_id', $id)->get();
+        $check_order = Order::where('order_type', 1)->where('order_id', $id)->get();
 
-        $last_row = Order::select('order_id')->latest()->first();
-        $ord_num = $last_row->order_id + 1;
-        foreach ($orders as $order) {
-            $ord = Order::find($order->id);
-            $newOrder = $ord->replicate();
-            $newOrder->order_id = $ord_num;
-            $newOrder->order_return = $order->order_id;
-            $newOrder->order_type = 1;
-            $newOrder->sdate = Carbon::now();
-            $newOrder->created_at = Carbon::now();
-            $newOrder->save();
+        if ($check_order->count() > 0) {
+            return redirect()->to('admin/show_order/' . $newOrder->order_id)->with('msg', 'عفوا تم ارجاع الفاتوره من قبل');
+        } else {
+        
+            $last_row = Order::select('order_id')->latest()->first();
+            $ord_num = $last_row->order_id + 1;
+            foreach ($orders as $order) {
+                $ord = Order::find($order->id);
+                $newOrder = $ord->replicate();
+                $newOrder->order_id = $ord_num;
+                $newOrder->order_return = $order->order_id;
+                $newOrder->order_type = 1;
+                $newOrder->sdate = Carbon::now();
+                $newOrder->created_at = Carbon::now();
+                $newOrder->save();
 
-            $stock = Stock::where('itm_code', $order->itm_code)->where('branch_id', $order->branch_id)->where('expiry_date', $order->expiry_date)->get()->first();
-            if ($stock) {
-                $updateStock = Stock::where('id', $stock->id)->update([
-                    'qty' => $stock->qty + $order->qty
-                ]);
+                $stock = Stock::where('itm_code', $order->itm_code)->where('branch_id', $order->branch_id)->where('expiry_date', $order->expiry_date)->get()->first();
+                if ($stock) {
+                    $updateStock = Stock::where('id', $stock->id)->update([
+                        'qty' => $stock->qty + $order->qty
+                    ]);
+                }
             }
+
+            return redirect()->to('admin/show_order/' . $newOrder->order_id)->with('msg', 'تم بنجاح');
         }
-
-        return redirect()->to('admin/show_order/' . $newOrder->order_id)->with('msg', 'تم بنجاح');
-
     }
 
     public function edit($id)

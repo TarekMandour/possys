@@ -9,7 +9,7 @@ class Post extends Model
 {
     protected $fillable = [
         'title', 'title_en', 'content', 'cat_id', 'is_show', 'is_tax',
-        'itm_code ', 'itm_unit1', 'itm_unit2', 'itm_unit3', 'mid', 'sm',
+        'itm_code', 'itm_unit1', 'itm_unit2', 'itm_unit3', 'mid', 'sm',
         'status', 'photo', 'branch_id'
     ];
 

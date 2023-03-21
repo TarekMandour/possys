@@ -19,6 +19,8 @@ class CreateTablesTable extends Migration {
 			$table->string('title', 150);
 			$table->integer('cat_id');
 			$table->boolean('status')->default(0);
+			$table->string('client_name', 191)->nullable();
+			$table->string('client_phone', 191)->nullable();
 			$table->timestamps();
 		});
 	}

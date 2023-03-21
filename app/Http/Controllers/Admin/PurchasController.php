@@ -35,7 +35,7 @@ class PurchasController extends Controller
 
     public function datatable(Request $request)
     {
-        $data = Purchas::orderBy('id', 'desc');
+        $data = Purchas::select('id','itm_code','order_type','order_id', 'branch','supplier_id','total_sub','total_tax','created_at')->orderBy('id', 'desc');
 
         $time_to = 4105360822;
         $time_from = 949600822;
@@ -72,48 +72,49 @@ class PurchasController extends Controller
             }
         }
 
-        if ($request->client_phone) {
-            $client = Client::where('phone', $request->client_phone)->first();
+        if ($request->supplier_phone) {
+            $client = Supplier::where('phone', $request->supplier_phone)->first();
             if ($client) {
-
-                $data = $data->where('client_id', $client->id);
+                $data = $data->where('supplier_id', $client->id);
             }
         }
 
+        $data = $data->get()->groupBy('order_id');
+        
         return Datatables::of($data)
             ->addColumn('id', function ($row) {
                 $id = '';
-                $id .= '<a href="'.url('/admin/show_purchas/'.$row->order_id).'">'.$row->order_id.'</a>';
+                $id .= '<a href="'.url('/admin/show_purchas/'.$row[0]->order_id).'">'.$row[0]->order_id.'</a>';
                 return $id;
             })
             ->editColumn('branch', function ($row) {
                 $branch = '';
-                $branch .= ' <span class="text-gray-800 text-hover-primary mb-1">' . json_decode($row->branch)->name . '</span>';
+                $branch .= ' <span class="text-gray-800 text-hover-primary mb-1">' . json_decode($row[0]->branch)->name . '</span>';
                 return $branch;
             })
             ->editColumn('total_sub', function ($row) {                
                 $total_sub = '';
-                $total_sub .= ' <span class="text-gray-800 text-hover-primary mb-1">' . $row->total_sub . '</span>';
+                $total_sub .= ' <span class="text-gray-800 text-hover-primary mb-1">' . $row[0]->total_sub . '</span>';
                 return $total_sub;
             })
             ->editColumn('total_tax', function ($row) {
                 $total_tax = '';
-                $total_tax .= ' <span class="text-gray-800 text-hover-primary mb-1">' . $row->total_tax . '</span>';
+                $total_tax .= ' <span class="text-gray-800 text-hover-primary mb-1">' . $row[0]->total_tax . '</span>';
                 return $total_tax;
             })
             ->editColumn('total', function ($row) {
                 $total = '';
-                $total .= ' <span class="text-gray-800 text-hover-primary mb-1">' . ($row->total_sub + $row->total_tax) . '</span>';
+                $total .= ' <span class="text-gray-800 text-hover-primary mb-1">' . ($row[0]->total_sub + $row[0]->total_tax) . '</span>';
                 return $total;
             })
             ->editColumn('created_at', function ($row) {
                 $created_at = '';
-                $created_at .= ' <span class="text-gray-800 text-hover-primary mb-1">' . date('y-m-d | h:i a', strtotime($row->created_at)) . '</span>';
+                $created_at .= ' <span class="text-gray-800 text-hover-primary mb-1">' . date('y-m-d | h:i a', strtotime($row[0]->created_at)) . '</span>';
                 return $created_at;
             })
             ->addColumn('actions', function ($row) {
                 $actions = '';
-                $actions .= '<a href="'.url('/admin/show_purchas/'.$row->order_id).'"
+                $actions .= '<a href="'.url('/admin/show_purchas/'.$row[0]->order_id).'"
                 class="btn btn-info btn-sm waves-effect waves-light"><i
                      class="ti-pencil-alt"></i></a>';
                 return $actions;
@@ -204,6 +205,15 @@ class PurchasController extends Controller
 
         $stock = Stock::where('itm_code', $product->itm_code)->latest()->first();
 
+        if ($request->order_type == 1) {
+            $pro_return = Purchas::where('order_type', 0)->where('itm_code', $request->itm_code)->where('order_id', $request->order_return)->sum('qty');
+            $prcart = PurchasCart::where('itm_code', $request->itm_code)->where('emp_id', Auth::user()->id)->sum('qty');
+
+            if ($pro_return == 0) {
+                return response()->json(['msg' => 'faild']);
+            }
+        }
+
         if ($product) {
             return view('admin.purchas.addProductModal', compact('product','stock'));
         } else {
@@ -216,12 +226,21 @@ class PurchasController extends Controller
     public function addCartPurchas(Request $request)
     {
 
+        if ($request->order_type == 1) {
+            $pro_return = Purchas::where('order_type', 0)->where('itm_code', $request->itm_code)->where('order_id', $request->order_return)->sum('qty');
+            $prcart = PurchasCart::where('itm_code', $request->itm_code)->where('emp_id', Auth::user()->id)->sum('qty');
+
+            if ($pro_return == 0) {
+                return response()->json(['msg' => 'faild']);
+            }
+        } 
+
         $data = new PurchasCart;
             $data->emp_id = Auth::user()->id;
             $data->itm_code = $request->itm_code;
             $data->title_en = $request->title_en;
             $data->price_purchasing = round($request->price_purchasing,2);
-            $data->qty = $request->qty;
+            $data->qty = $request->qty; 
             $data->is_tax = $request->is_tax;
             $data->price_selling = round($request->price_selling,2);
             $data->price_minimum_sale = round($request->price_minimum_sale,2);

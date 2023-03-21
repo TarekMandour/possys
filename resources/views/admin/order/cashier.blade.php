@@ -27,12 +27,6 @@
                 </div>
             @endif
 
-
-            <div id="alert">
-
-            </div>
-
-
             <form action="{{ route('admin.cashier.submit') }}" method="post" enctype="multipart/form-data">
 
                 @csrf
@@ -106,7 +100,7 @@
 
                                     <div class="col-sm-2" id="order_return" style="display: none;">
                                         <small class="form-text text-muted">ادخل رقم الفاتورة</small>
-                                        <input class="form-control" type="text" value=""
+                                        <input class="form-control" id="order_return_value" type="text" value=""
                                                placeholder="ادخل رقم الفاتورة " name="order_return">
                                     </div>
 
@@ -220,6 +214,7 @@
 
             var branch_id = $("#branch_id").val();
             var order_type = $("#order_type").val();
+            var order_return_value = $("#order_return_value").val();
             
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
@@ -228,8 +223,8 @@
 
                 $.ajax({
                     type: "GET",
-                    url: "{{url('admin/addcartorder')}}",
-                    data: {"itm_code": itm_code, "branch_id": branch_id, "order_type": order_type},
+                    url: "{{url('admin/addcartorder')}}", 
+                    data: {"itm_code": itm_code, "branch_id": branch_id, "order_type": order_type, "order_return": order_return_value},
                     success: function (data) {
                         // var audio = new Audio("{{ URL::asset('public/adminAssets/ar/barcode-beep.mp3') }}");
                         // audio.volume = .5;

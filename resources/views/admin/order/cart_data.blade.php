@@ -1,3 +1,9 @@
+@if (session()->has('qty_faild'))
+    <div class="alert alert-danger">
+            {{session()->get('qty_faild')}}
+    </div>
+@endif
+
 <table class="table table-hover">
     <thead>
     <tr>

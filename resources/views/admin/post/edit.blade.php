@@ -267,6 +267,45 @@
                                     <input type="hidden" name="attid[]" value="{{$att->id}}">
                                 </div>
                                 @endforeach
+                                <div class="row col-md-12 m-b-10 m-r-10 form_debart" >
+
+                                    <div class="col-md-3 fv-row">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">الخصائص </label>
+                                        <!--end::Label-->
+                                        <select class="form-control select2" onchange="myFunction()" id="itm_unit1" name="attribute[]">
+                                            <option value="">---</option>
+                                            @foreach (App\Models\Attribute::get() as $item=>$attri)
+                                                <option value="{{$attri->id}}">{{$attri->title}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-3 fv-row">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">الاسم </label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input type="text" name="attname[]" class="form-control mb-2" value="" />
+                                        <!--end::Input-->
+                                    </div>
+
+                                    <div class="col-md-2 fv-row">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">التكلفة</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input type="number" step="any" name="attprice[]" class="form-control mb-2" value="" />
+                                        <!--end::Input-->
+                                    </div>
+
+
+                                    <div class="col-md-1 remove_ro" style="" >
+                                        <br>
+                                        <a href="javascript:;" onclick="add_debart($(this),event)"  id="add_debart" class="btn btn-success"><i class="ti-plus"></i> </a>
+                                    </div>
+
+                                </div>
                             </div>
 
                         </div>
@@ -313,7 +352,33 @@
                                     </div>
                                     <input type="hidden" name="addid[]" value="{{$add->id}}">
                                 </div>
-                                @endforeach
+                                @endforeach 
+                                <div class="row col-md-12 m-b-10 m-r-10 form_debart" >
+                                    <div class="col-md-3 fv-row">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">الاسم </label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input type="text" name="addname[]" class="form-control mb-2" value="" />
+                                        <!--end::Input-->
+                                    </div>
+
+                                    <div class="col-md-2 fv-row">
+                                        <!--begin::Label-->
+                                        <label class="required form-label">التكلفة</label>
+                                        <!--end::Label-->
+                                        <!--begin::Input-->
+                                        <input type="number" step="any" name="addprice[]" class="form-control mb-2" value="" />
+                                        <!--end::Input-->
+                                    </div>
+
+
+                                    <div class="col-md-1 remove_ro" style="" >
+                                        <br>
+                                        <a href="javascript:;" onclick="add_debart($(this),event)"  id="add_debart" class="btn btn-success"><i class="ti-plus"></i> </a>
+                                    </div>
+
+                                </div>
                             </div>
 
                         </div>

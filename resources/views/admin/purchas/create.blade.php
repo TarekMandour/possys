@@ -2,6 +2,7 @@
 
 @section('css')
     <link href="{{ URL::asset('public/adminAssets/ar/plugins/summernote/summernote-bs4.css') }}" rel="stylesheet"/>
+    <link href="{{ URL::asset('public/adminAssets/ar/plugins/alertify/css/alertify.css') }}" rel="stylesheet" type="text/css">
     <style>
         .product-list-box {
             padding: 0px !important;
@@ -103,7 +104,7 @@
 
                                     <div class="col-sm-2" id="order_return" style="display: none;">
                                         <small class="form-text text-muted">ادخل رقم الفاتورة</small>
-                                        <input class="form-control" type="text" value=""
+                                        <input class="form-control" type="text" value="" id="order_return_value"
                                                placeholder="ادخل رقم الفاتورة " name="order_return">
                                     </div>
 
@@ -181,6 +182,7 @@
     <script
         src="{{ URL::asset('public/adminAssets/ar/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js') }}"></script>
     <script src="{{ URL::asset('public/adminAssets/ar/plugins/summernote/summernote-bs4.js') }}"></script>
+    <script src="{{ URL::asset('public/adminAssets/ar/plugins/alertify/js/alertify.js') }}"></script>
 @endsection
 
 @section('script-bottom')
@@ -205,18 +207,38 @@
             }
         });
 
+        var delayTimer;
+
         $("#itm_code").on("input", function() {
             var itm_code = $("#itm_code").val();
+            var order_type = $("#order_type").val();
+            var order_return_value = $("#order_return_value").val();
+
             var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
-            $.ajax({
-                type: "GET",
-                url: "{{url('admin/get_p_product')}}",
-                data: {"itm_code": itm_code},
-                success: function (data) {
-                    $(".cartmodal .modal-body").html(data);
-                    $(".cartmodal").modal('show');
-                }
-            })
+
+            clearTimeout(delayTimer);
+            delayTimer = setTimeout(function() {
+
+                $.ajax({
+                    type: "GET",
+                    url: "{{url('admin/get_p_product')}}",
+                    data: {"itm_code": itm_code,"order_type": order_type, "order_return": order_return_value},
+                    success: function (data) {
+                        if(data.msg) {
+                            if(data.msg == "faild") {
+                                alertify.error("عفوا ، المنتج غير متوفر");
+                            }
+                            document.getElementById('itm_code').value = '';
+                            document.getElementById("itm_code").focus();
+                        } else {
+                            $(".cartmodal .modal-body").html(data);
+                            $(".cartmodal").modal('show');
+                        }
+                        
+                    }
+                })
+
+            }, 300);
         });
 
         $('#itm_name').keyup(function (e) {

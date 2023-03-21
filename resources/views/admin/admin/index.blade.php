@@ -66,7 +66,7 @@
                                         <td>@if($row->type==0)
                                                 مدير
                                             @elseif($row->type==1)
-                                                كاشير
+                                                فرع
                                             @else
                                                 مطبخ
                                             @endif

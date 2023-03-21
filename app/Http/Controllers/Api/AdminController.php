@@ -46,20 +46,20 @@ class AdminController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return $this->msgdata($request, 401, $validator->messages()->first(), (object)[]);
+            return $this->msgdata($request, 401, $validator->messages()->first(), null);
         }
 
         $token = Auth::guard('admin')->attempt(['phone' => $request->username, 'password' => $request->password]);
 
         //return token
         if (!$token) {
-            return $this->msgdata($request, 401, "رقم الهاتف او كلمة المرور خطأ", (object)[]);
+            return $this->msgdata($request, 401, "رقم الهاتف او كلمة المرور خطأ", null);
         }
         $user = Auth::guard('admin')->user();
         $user_data = Admin::where('id', $user->id)->first();
 
         if ($user_data->is_active != 1) {
-            return $this->msgdata($request, 401, "عفوآ هذا الحساب موقوف.", (object)[]);
+            return $this->msgdata($request, 401, "عفوآ هذا الحساب موقوف.", null);
         }
         $user_data->api_token = Str::random(60);
         $user_data->save();
@@ -74,7 +74,7 @@ class AdminController extends Controller
         $user = $this->check_api_token($api_token);
 
         if (!$user) {
-            return $this->msgdata($request, 401, "برجاء تسجيل الدخول", (object)[]);
+            return $this->msgdata($request, 401, "برجاء تسجيل الدخول", null);
         }
         $data = new AdminResource($user);
         return $this->msgdata($request, 200, "نجاح", $data);
@@ -135,7 +135,7 @@ class AdminController extends Controller
             $user = $this->check_api_token($api_token);
 
             if (!$user) {
-                return $this->msgdata($request, 401, "برجاء تسجيل الدخول", (object)[]);
+                return $this->msgdata($request, 401, "برجاء تسجيل الدخول", null);
             }
 
    
@@ -187,7 +187,7 @@ class AdminController extends Controller
             $user = $this->check_api_token($api_token);
 
             if (!$user) {
-                return $this->msgdata($request, 401, "برجاء تسجيل الدخول", (object)[]);
+                return $this->msgdata($request, 401, "برجاء تسجيل الدخول", null);
             }
 
    
@@ -325,7 +325,7 @@ class AdminController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return $this->msgdata($request, 401, $validator->messages()->first(), (object)[]);
+            return $this->msgdata($request, 401, $validator->messages()->first(), null);
         }
 
         $branch_id = $request->branch_id;
@@ -381,7 +381,7 @@ class AdminController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return $this->msgdata($request, 401, $validator->messages()->first(), (object)[]);
+            return $this->msgdata($request, 401, $validator->messages()->first(), null);
         }
 
         $data = Printer::where('id', $request->printer_id)->update([
@@ -439,11 +439,22 @@ class AdminController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return $this->msgdata($request, 401, $validator->messages()->first(), (object)[]);
+            return $this->msgdata($request, 401, $validator->messages()->first(), null);
+        }
+
+        $client = Client::find($request->client_id);
+        if ($client) {
+            $client_name = $client->name;
+            $client_phone = $client->phone;
+        } else {
+            $client_name = NULL;
+            $client_phone = NULL;
         }
 
         $data = Table::where('id', $request->table_id)->update([
             'status' => $request->status,
+            'client_name' => $client_name,
+            'client_phone' => $client_phone,
         ]);
 
         $table = Table::find($request->table_id);
@@ -463,7 +474,7 @@ class AdminController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return $this->msgdata($request, 401, $validator->messages()->first(), (object)[]);
+            return $this->msgdata($request, 401, $validator->messages()->first(), null);
         }
 
         $data = Client::create([
@@ -486,7 +497,7 @@ class AdminController extends Controller
         $user = Client::where('phone', $phone)->get();
 
         if ($user->count() == 0) {
-            return $this->msgdata($request, 401, "لا يوجد حساب مسجل لهذا الرقم", (object)[]);
+            return $this->msgdata($request, 401, "لا يوجد حساب مسجل لهذا الرقم", null);
         }
 
         $data = ClientResource::collection($user);
@@ -695,7 +706,7 @@ class AdminController extends Controller
         $api_token = $request->header('token');
         $user = $this->check_api_token($api_token);
         if (!$user) {
-            return $this->msgdata($request, 401, "برجاء تسجيل الدخول", (object)[]);
+            return $this->msgdata($request, 401, "برجاء تسجيل الدخول", null);
         }
         $data = SupplierResource::collection(Supplier::orderBy('id', 'desc')->get());
         return $this->msgdata($request, 200, "نجاح", $data);
@@ -709,7 +720,7 @@ class AdminController extends Controller
         $api_token = $request->header('token');
         $user = $this->check_api_token($api_token);
         if (!$user) {
-            return $this->msgdata($request, 401, "برجاء تسجيل الدخول", (object)[]);
+            return $this->msgdata($request, 401, "برجاء تسجيل الدخول", null);
         }
 
         $rules = [
@@ -725,7 +736,7 @@ class AdminController extends Controller
         ];
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
-            return $this->msgdata($request, 401, $validator->messages()->first(), (object)[]);
+            return $this->msgdata($request, 401, $validator->messages()->first(), null);
         }
 
         $data = new Supplier;

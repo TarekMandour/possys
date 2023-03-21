@@ -59,7 +59,7 @@
                                                     @if($data->type == 0)
                                                         مدير
                                                     @elseif($data->type == 1)
-                                                        كاشير
+                                                        فرع
                                                     @else
                                                         مطبخ
                                                     @endif

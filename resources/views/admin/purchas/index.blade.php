@@ -70,7 +70,7 @@
                                         <div class="col-sm-2">
                                             <div class="form-group">
                                                 <div class="col-sm-12">
-                                                    <input class="form-control" type="text" value=""
+                                                    <input class="form-control" type="text" value="" id="supplier_phone"
                                                            placeholder="رقم المورد" name="supplier_phone">
                                                 </div>
                                             </div>
@@ -88,12 +88,12 @@
                                         <div class="col-sm-4 row">
                                             <label for="sdate" class="col-sm-4">من تاريخ</label>
                                             <input class="form-control col-sm-8" type="date" value=""
-                                                   name="sdate" id="sdate">
+                                                   name="sdate" id="sdate" required>
                                         </div>
                                         <div class="col-sm-4 row">
                                             <label for="to_date" class="col-sm-4">الى تاريخ</label>
                                             <input class="form-control col-sm-8" type="date" value=""
-                                                   name="to_date" id="to_date">
+                                                   name="to_date" id="to_date" required>
                                         </div>
 
                                     </div>
@@ -153,7 +153,7 @@
             <script>
                 $(function () {
                     sales();
-                    function sales(sdate='', to_date = '', itm_code='', client_phone = '',order_id='', order_type = '', branch_id = '', branch_id_in = ''){
+                    function sales(sdate='', to_date = '', itm_code='', supplier_phone = '',order_id='', order_type = '', branch_id = '', branch_id_in = ''){
                     $('#datatable2').DataTable().destroy();
 
                         var table = $('#datatable2').DataTable({
@@ -185,7 +185,7 @@
                             ],
                             ajax: {
                                 url: '{{ route('purchas.datatable.data') }}',
-                                data: {sdate:sdate, to_date:to_date, itm_code:itm_code, client_phone:client_phone, order_id:order_id, order_type:order_type, branch_id:branch_id, branch_id_in:branch_id_in }
+                                data: {sdate:sdate, to_date:to_date, itm_code:itm_code, supplier_phone:supplier_phone, order_id:order_id, order_type:order_type, branch_id:branch_id, branch_id_in:branch_id_in }
                             },
                             columns: [
                                 {data: 'id', name: 'id', "searchable": true, "orderable": true},
@@ -203,14 +203,14 @@
                         var sdate = $('#sdate').val();
                         var to_date = $('#to_date').val();
                         var itm_code = $('#itm_code').val();
-                        var client_phone = $('#client_phone').val();
+                        var supplier_phone = $('#supplier_phone').val();
                         var order_id = $('#order_id').val();
                         var order_type = $('#order_type').val();
                         var branch_id = $('#branch_id').val();
                         var branch_id_in = $('#branch_id_in').val();
 
                         $('#datatable2').DataTable().destroy();
-                        sales(sdate, to_date, itm_code, client_phone, order_id, order_type, branch_id, branch_id_in);
+                        sales(sdate, to_date, itm_code, supplier_phone, order_id, order_type, branch_id, branch_id_in);
                     });
                 
                 });
