@@ -106,7 +106,7 @@ class AdminController extends Controller
                 return $this->msgdata($request, 200, "تم التعديل بنجاح", null);
 
             } else {
-                return response(['status' => 401, 'msg' => trans('lang.Sorry_phone_number_is_wrong'), 'data' => NULL]);
+                return response(['status' => 401, 'msg' => 'عفوا رقم الهاتف غير صحيح', 'data' => NULL]);
 
             }
 
@@ -250,7 +250,7 @@ class AdminController extends Controller
             }
             
 
-            return response(['status' => 200, 'msg' => trans('lang.Successfully_done'), 'data' => NULL]);
+            return response(['status' => 200, 'msg' => 'تم بنجاح', 'data' => NULL]);
 
 
         }

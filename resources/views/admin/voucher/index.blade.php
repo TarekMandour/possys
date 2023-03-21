@@ -67,9 +67,9 @@
                                                for="customControlInline{{$item+1}}"></label>
                                     </div>
                                 </td>
-                                <td>{{trans('lang.'.$row->type)}}</td>
-                                <td>{{trans('lang.'.$row->pay_type)}}</td>
-                                <td>{{trans('lang.'.$row->user_type)}}</td>
+                                <td>{{$row->type}}</td>
+                                <td>{{$row->pay_type}}</td>
+                                <td>{{$row->user_type}}</td>
                                 <td>{{$row->external_name}}</td>
                                 <td>{{$row->trans_date}}</td>
                                 <td>{{$row->amount}}</td>
@@ -137,9 +137,9 @@
                                         <select class="form-control select2" id="user_type"
                                                 name="user_type" required>
 
-                                            <option value="client">{{trans('lang.client')}}</option>
-                                            <option value="supplier">{{trans('lang.supplier')}}</option>
-                                            <option value="external">{{trans('lang.external')}}</option>
+                                            <option value="client">عميل</option>
+                                            <option value="supplier">مورد</option>
+                                            <option value="external">جهة خارجيه</option>
                                         </select>
                                     </div>
                                 </div>
