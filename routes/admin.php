@@ -72,8 +72,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
         Route::get('/products', 'PostController@index');
         Route::get('/show_post/{id}', 'PostController@show');
-        Route::get('/create_post', 'PostController@create');
-        Route::post('/create_post', 'PostController@store')->name('admin.create_post.submit');
+        Route::get('/create_post', 'PostController@create')->middleware('permission:اضافة منتج');
+        Route::post('/create_post', 'PostController@store')->name('admin.create_post.submit')->middleware('permission:اضافة منتج');
         Route::get('/import_products', 'PostController@import_products');
         Route::post('/import_products', 'PostController@import_products_store')->name('admin.import_products.submit');
         Route::get('/edit_post/{id}', 'PostController@edit');
@@ -201,6 +201,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::post('/create_voucher', 'VouchersController@store')->name('admin.create_voucher.submit');
         Route::post('/delete_voucher', 'VouchersController@delete')->name('admin.delete_voucher');
 
+        
+        Route::get('/roles', 'RoleController@index');
+        Route::get('/show_role/{id}', 'RoleController@show');
+        Route::get('/create_role', 'RoleController@create');
+        Route::post('/create_role', 'RoleController@store')->name('admin.create_role.submit');
+        Route::get('/edit_role/{id}', 'RoleController@edit');
+        Route::post('/edit_role', 'RoleController@update')->name('admin.edit_role.submit');
+        Route::post('/delete_role', 'RoleController@delete')->name('admin.delete_role');
+
     });
 
 //    BranchUser
@@ -322,6 +331,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::get('/sales-report', 'ReportController@SellReport');
         Route::get('/item-report/{id}', 'ReportController@ItemReport');
         Route::get('/bonus-report', 'ReportController@BonusReport');
+
 
 
     });

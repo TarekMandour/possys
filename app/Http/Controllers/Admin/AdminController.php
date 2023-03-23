@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use DB;
 use App\Models\Admin;
 
 class AdminController extends Controller
@@ -30,7 +32,8 @@ class AdminController extends Controller
 
     public function create()
     {
-        return view('admin.admin.create');
+        $query['roles'] = Role::orderBy('id','desc')->get();
+        return view('admin.admin.create', $query);
     }
 
     public function store(Request $request)
@@ -81,8 +84,17 @@ class AdminController extends Controller
         if ($request->type != 0) {
             $data->branch_id = $request->branch_id;
         }
-        $data->save();
 
+
+
+        $data->save();
+        $selectedRoles = $request->input('roles');
+
+        // Remove all roles from the user
+        $data->syncRoles([]);
+        $data->assignRole($selectedRoles);
+        
+        // return $data->hasRole('admin');
         return redirect('admin/admins')->with('msg', 'تم بنجاح');
     }
 
@@ -90,6 +102,10 @@ class AdminController extends Controller
     {
         // $query['data'] = Admin::where('id', $id)->get();
         $query['data'] = Admin::find($id);
+        $query['role'] = DB::table('model_has_roles')
+        ->where('model_has_roles.model_id', '=', $id)
+        ->get();
+        $query['roles'] = Role::orderBy('id','desc')->get();
         return view('admin.admin.edit', $query);
     }
 
@@ -134,7 +150,16 @@ class AdminController extends Controller
         if ($request->type != 0) {
             $row->branch_id = $request->branch_id;
         }
+
+        $selectedRoles = $request->input('roles');
+
+        
+        $row->syncRoles([]);
+        $row->assignRole($selectedRoles);
         $row->save();
+
+
+
         return redirect('admin/admins')->with('msg', 'تم بنجاح');
     }
 

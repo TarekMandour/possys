@@ -22,7 +22,9 @@
                     <div class="m-b-30">
                         <div class="row">
                             <div class="col-sm-6">
+                                @can('اضافة منتج')
                                 <a href="{{ url('/admin/create_post/') }}" class="btn btn-purple waves-effect waves-light" role="button">اضف جديد</a>
+                                @endcan
                                 <a href="{{ url('/admin/import_products/') }}" class="btn btn-purple waves-effect waves-light" role="button"> رفع مجموعة اصناف</a>
                                 <a href="{{ url('/admin/export-product/') }}" class="btn btn-dark waves-effect waves-light" role="button"> تصدير </a>
                                 <a href="#" id="btn_delete" data-token="{{ csrf_token() }}" class="btn btn-danger waves-effect waves-light" role="button">حذف</a>
@@ -89,7 +91,9 @@
                                         <td>{{($row->status == 1)?'مفعل' : 'غير مفعل'}}</td>
                                         <td>{{Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</td>
                                         <td>
+                                            @can('تعديل منتج')
                                             <a href="{{ url('/admin/edit_post/'.$row->id) }}" class="btn btn-info btn-sm waves-effect waves-light"><i class="ti-pencil-alt"></i></a>
+                                            @endcan
                                         {{-- <a href="{{ url('/admin/reviews/'.$row->id) }}" title="التقييمات" class="btn btn-success btn-sm waves-effect waves-light"><i class="fa fa-star"></i></a>--}}
                                         </td>
                                     </tr>

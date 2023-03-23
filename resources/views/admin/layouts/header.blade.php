@@ -136,6 +136,11 @@
                     </li>
 
                     <li>
+                        <a href="{{url('admin/roles')}}" class="waves-effect"><span> الصلاحيات</span> <i
+                                class="fa fa-edit"></i></a>
+                    </li>
+
+                    <li>
                         <a href="{{url('admin/admins')}}" class="waves-effect"><span> المديرين / العاملين</span> <i
                                 class="fa fa-user-secret"></i></a>
                     </li>

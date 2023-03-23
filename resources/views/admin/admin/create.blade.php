@@ -103,6 +103,17 @@
                                         </div>
 
                                         <div class="form-group">
+                                            <label for="example-text-input" class="col-sm-12 col-form-label">الصلاحية</label>
+                                            <div class="col-sm-12">
+                                                <select class="form-control select2" name="roles">
+                                                    @foreach ($roles as $item=>$row)
+                                                        <option value="{{$row->id}}">{{$row->name}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
                                             <div class="col-sm-12">
                                                 <label class="control-label">هل نشط ؟</label>
                                                 <br>

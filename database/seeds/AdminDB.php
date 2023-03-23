@@ -9,6 +9,8 @@ use App\Models\Branch;
 use App\Models\Attribute;
 use App\Models\Client;
 use App\Models\Supplier;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 
 class AdminDB extends Seeder
@@ -20,6 +22,26 @@ class AdminDB extends Seeder
      */
     public function run()
     {
+
+        
+        // Permissions
+
+        $permission1 = Permission::create(['name' => 'تعديل منتج', 'guard_name' => 'admin']);
+        $permission2 = Permission::create(['name' => 'اضافة منتج', 'guard_name' => 'admin']);
+
+
+        $role = Role::create([
+            'name' => 'admin',
+            'guard_name' => 'admin',
+        ]);
+        $role->givePermissionTo([
+            $permission1, 
+            $permission2
+        ]);
+        
+        $role->save;
+
+
         $add = new Admin;
         $add->name = 'Tarek Mandour';
         $add->email = 'tarek.mandourr@gmail.com';
@@ -27,6 +49,7 @@ class AdminDB extends Seeder
         $add->password = Hash::make(123456);
         $add->is_active = 1;
         $add->type = 0;
+        $add->assignRole(['admin']);
         $add->save();
 
         $add = new Setting;
@@ -109,5 +132,8 @@ class AdminDB extends Seeder
         $add->tax_number = 123456789123456;
         $add->is_active = 1;
         $add->save();
+
+
+
     }
 }

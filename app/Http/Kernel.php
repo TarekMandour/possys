@@ -66,6 +66,9 @@ class Kernel extends HttpKernel
         'branch_selected'=>\App\Http\Middleware\IsBranchSelected::class,
         'admin'=>\App\Http\Middleware\Admin::class,
         'BranchUser'=>\App\Http\Middleware\BranchUser::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
 
         /**** OTHER MIDDLEWARE ****/
         'localize'                => \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
