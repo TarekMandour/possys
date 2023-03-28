@@ -103,8 +103,8 @@ class CategoryController extends Controller
             return response()->json(['msg'=>'Failed']);
         }
         // session()->flash('msg', 'Success');
-
-        return back()->with('msg', 'Success');
+        session()->flash('msg', 'Success');
+        return response()->json(['msg'=>'Success']);
     }
 
 }

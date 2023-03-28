@@ -46,11 +46,11 @@
                                         <td class="text-center"><?php echo $data->content ; ?></td>
                                     </tr>
                                     <tr>
-                                        <td class="text-left"><strong>Meta Keywords :</strong></td>
+                                        <td class="text-left"><strong>الكلمات الدلالية :</strong></td>
                                         <td class="text-center"><?php echo $data->meta_keywords ; ?></td>
                                     </tr>
                                     <tr>
-                                        <td class="text-left"><strong>Meta Description :</strong></td>
+                                        <td class="text-left"><strong>الوصف :</strong></td>
                                         <td class="text-center"><?php echo $data->meta_description ; ?></td>
                                     </tr>
                                     <tr>
