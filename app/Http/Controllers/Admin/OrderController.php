@@ -682,7 +682,7 @@ class OrderController extends Controller
                 $wallet_out->save();
 
                 if (!empty($cart_item['expiry_date'])) {
-                    $stock = Stock::where('itm_code', $cart_item['itm_code'])->where('branch_id', $request->branch_id)->whereDate('expiry_date', $cart_item['expiry_date'])->get()->first();
+                    $stock = Stock::where('itm_code', $cart_item['itm_code'])->where('branch_id', $request->branch_id)->whereDate('expiry_date', Carbon::parse($cart_item['expiry_date'])->format('Y-m-d'))->get()->first();
                 } else {
                     $stock = Stock::where('itm_code', $cart_item['itm_code'])->where('branch_id', $request->branch_id)->where('expiry_date', NULL)->get()->first();
                 }
