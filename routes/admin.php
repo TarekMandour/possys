@@ -72,13 +72,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
         Route::get('/products', 'PostController@index');
         Route::get('/show_post/{id}', 'PostController@show');
-        Route::get('/create_post', 'PostController@create')->middleware('permission:اضافة منتج');
-        Route::post('/create_post', 'PostController@store')->name('admin.create_post.submit')->middleware('permission:اضافة منتج');
-        Route::get('/import_products', 'PostController@import_products');
-        Route::post('/import_products', 'PostController@import_products_store')->name('admin.import_products.submit');
-        Route::get('/edit_post/{id}', 'PostController@edit');
-        Route::post('/edit_post', 'PostController@update')->name('admin.edit_post.submit');
-        Route::post('/delete_post', 'PostController@delete')->name('admin.delete_post');
+        Route::get('/create_post', 'PostController@create')->middleware('permission:اضافة المنتجات');
+        Route::post('/create_post', 'PostController@store')->name('admin.create_post.submit')->middleware('permission:اضافة المنتجات');
+        Route::get('/import_products', 'PostController@import_products')->middleware('permission:رفع مجموعة اصناف منتجات');
+        Route::post('/import_products', 'PostController@import_products_store')->name('admin.import_products.submit')->middleware('permission:رفع مجموعة اصناف منتجات');
+        Route::get('/edit_post/{id}', 'PostController@edit')->middleware('permission:تعديل المنتجات');
+        Route::post('/edit_post', 'PostController@update')->name('admin.edit_post.submit')->middleware('permission:تعديل المنتجات');
+        Route::post('/delete_post', 'PostController@delete')->name('admin.delete_post')->middleware('permission:حذف المنتجات');
         Route::get('/reviews/{id}', 'PostController@reviews');
         Route::post('/filter_post', 'PostController@filter')->name('admin.filter_post.submit');
         Route::get('/filter_post', 'PostController@filter');

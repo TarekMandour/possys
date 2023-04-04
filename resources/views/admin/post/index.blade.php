@@ -22,12 +22,19 @@
                     <div class="m-b-30">
                         <div class="row">
                             <div class="col-sm-6">
-                                @can('اضافة منتج')
+                                @can('اضافة المنتجات')
                                 <a href="{{ url('/admin/create_post/') }}" class="btn btn-purple waves-effect waves-light" role="button">اضف جديد</a>
                                 @endcan
+                                @can('رفع مجموعة اصناف منتجات')
                                 <a href="{{ url('/admin/import_products/') }}" class="btn btn-purple waves-effect waves-light" role="button"> رفع مجموعة اصناف</a>
+                                @endcan
+
                                 <a href="{{ url('/admin/export-product/') }}" class="btn btn-dark waves-effect waves-light" role="button"> تصدير </a>
+
+                                @can('حذف المنتجات')
                                 <a href="#" id="btn_delete" data-token="{{ csrf_token() }}" class="btn btn-danger waves-effect waves-light" role="button">حذف</a>
+                                @endcan
+
                             </div>
 
                             <div class="col-sm-6">
@@ -91,7 +98,7 @@
                                         <td>{{($row->status == 1)?'مفعل' : 'غير مفعل'}}</td>
                                         <td>{{Carbon\Carbon::parse($row->created_at)->diffForHumans()}}</td>
                                         <td>
-                                            @can('تعديل منتج')
+                                            @can('تعديل المنتجات')
                                             <a href="{{ url('/admin/edit_post/'.$row->id) }}" class="btn btn-info btn-sm waves-effect waves-light"><i class="ti-pencil-alt"></i></a>
                                             @endcan
                                         {{-- <a href="{{ url('/admin/reviews/'.$row->id) }}" title="التقييمات" class="btn btn-success btn-sm waves-effect waves-light"><i class="fa fa-star"></i></a>--}}
