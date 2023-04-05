@@ -25,8 +25,14 @@
                 <div class="card-body">
 
                     <div class="m-b-30">
+                        @can('اضافة الاقسام')
+
                         <a href="{{ url('/admin/create_admin/') }}" class="btn btn-purple waves-effect waves-light" data-toggle="modal" data-target="#addModel" role="button">اضف جديد</a>
+                        @endcan
+                        @can('حذف الاقسام')
+
                         <a href="#" id="btn_delete" data-token="{{ csrf_token() }}" class="btn btn-danger waves-effect waves-light" role="button">حذف</a>
+                        @endcan
                     </div>
 
                     <table id="datatable" class="table table-striped table-bordered dt-responsive" cellspacing="0" width="100%">
@@ -74,7 +80,10 @@
                                     @endif
                                 </td>
                                 <td>
+                                    @can('تعديل الاقسام')
+
                                     <a href="#" data-id="{{$row->id}}" data-original-title="Edit" class="btn btn-info btn-sm waves-effect waves-light edit-Advert"><i class="ti-pencil-alt"></i></a>
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach

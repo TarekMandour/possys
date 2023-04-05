@@ -19,8 +19,15 @@
                 <div class="card-body">
 
                     <div class="m-b-30">
+                        @can('اضافة العملاء')
+
                         <a href="{{ url('/admin/create_client/') }}" class="btn btn-purple waves-effect waves-light" role="button">اضف جديد</a>
+                        @endcan
+
+                        @can('حذف العملاء')
+
                         <a href="#" id="btn_delete" data-token="{{ csrf_token() }}" class="btn btn-danger waves-effect waves-light" role="button">حذف</a>
+                        @endcan
                     </div>
                     @if (session()->has('msg'))
                         <div class="alert alert-success">
@@ -56,7 +63,9 @@
                                 <td>{{$row->created_at}}</td>
                                 <td>
 {{--                                    <a href="{{ url('/admin/show_client/'.$row->id) }}" class="btn btn-purple btn-sm waves-effect waves-light"><i class="ti-eye"></i></a>--}}
+                                    @can('تعديل العملاء')
                                     <a href="{{ url('/admin/edit_client/'.$row->id) }}" class="btn btn-info btn-sm waves-effect waves-light"><i class="ti-pencil-alt"></i></a>
+                                    @endcan
                                     <a href="{{ url('/admin/sales_client/'.$row->id) }}" class="btn btn-success btn-sm waves-effect waves-light"><i class="ti-money"></i></a>
                                 </td>
                             </tr>

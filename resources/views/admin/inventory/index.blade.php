@@ -32,10 +32,15 @@
                 <div class="card-body">
 
                     <div class="m-b-30">
+                        @can('اضافة جرد مخزون')
+
                         <a href="{{ url('/admin/create_admin/') }}" class="btn btn-purple waves-effect waves-light"
                            data-toggle="modal" data-target="#addModel" role="button">اضف جديد</a>
+                        @endcan
+                        @can('حذف جرد مخزون')
                         <a href="#" id="btn_delete" data-token="{{ csrf_token() }}"
                            class="btn btn-danger waves-effect waves-light" role="button">حذف</a>
+                        @endcan
                     </div>
 
                     <table id="datatable" class="table table-striped table-bordered dt-responsive" cellspacing="0"

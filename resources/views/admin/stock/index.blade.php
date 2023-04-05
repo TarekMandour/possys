@@ -32,11 +32,14 @@
                                     <div class="row">
                                         
                                         <div class="col-sm-1">
+                                            @can('حذف المخزون')
                                             <a href="#" id="btn_delete" data-token="{{ csrf_token() }}" class="btn btn-danger waves-effect waves-light" role="button">حذف</a>
+                                            @endcan
+
                                         </div>
 
                                         <div class="col-sm-1">
-                                            
+
                                             <button type="submit" class="btn btn-purple waves-effect waves-light"
                                                     role="button">فلتر
                                             </button>
@@ -147,10 +150,13 @@
                                                 <td>{{$row->price_purchasing}}</td>
                                                 <td>{{$row->price_selling}}</td>
                                                 <td>
+                                                    @can('تعديل المخزون')
                                                     <button type="button" id="edit_stock"
                                                             onclick="edit_stock({{$row->itm_code}},{{$row->id}})"
                                                             class="btn btn-info btn-sm waves-effect waves-light"><i
                                                             class="ti-pencil-alt"></i></button>
+                                                    @endcan
+
                                                             <a href="{{ url('/admin/item-report/'.$row->itm_code) }}" target="_blank" title="تقرير الصنف " class="btn btn-dark btn-sm waves-effect waves-light"><i class="mdi mdi-chart-bar"></i></a>
                                                      <a href="{{ url('/admin/barcode_stock/'.$row->id) }}" target="_blank" title="طباعة الباركود" class="btn btn-dark btn-sm waves-effect waves-light"><i class="fa fa-barcode"></i></a>
                                                 </td>

@@ -31,11 +31,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
         Route::get('/clients', 'ClientController@index');
         Route::get('/show_client/{id}', 'ClientController@show');
-        Route::get('/create_client', 'ClientController@create');
-        Route::post('/create_client', 'ClientController@store')->name('admin.create_client.submit');
-        Route::get('/edit_client/{id}', 'ClientController@edit');
-        Route::post('/edit_client', 'ClientController@update')->name('admin.edit_client.submit');
-        Route::post('/delete_client', 'ClientController@delete')->name('admin.delete_client');
+        Route::get('/create_client', 'ClientController@create')->middleware('permission:اضافة العملاء');
+        Route::post('/create_client', 'ClientController@store')->name('admin.create_client.submit')->middleware('permission:اضافة العملاء');
+        Route::get('/edit_client/{id}', 'ClientController@edit')->middleware('permission:تعديل الخصائص');
+        Route::post('/edit_client', 'ClientController@update')->name('admin.edit_client.submit')->middleware('permission:تعديل الخصائص');
+        Route::post('/delete_client', 'ClientController@delete')->name('admin.delete_client')->middleware('permission:حذف الخصائص');
         Route::get('/sales_client/{id}', 'ClientController@sales');
 
         Route::get('/sliders', 'SliderController@index');
@@ -124,16 +124,16 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::get('/filter_deficiencie', 'DeficienciesController@filter')->name('admin.filter_deficiencie.submit');
 
         Route::get('/unit', 'UnitController@index');
-        Route::post('/create_unit', 'UnitController@store')->name('admin.create_unit.submit');
-        Route::get('/edit_unit', 'UnitController@edit');
-        Route::post('/update_unit', 'UnitController@update')->name('admin.update_unit.submit');
-        Route::post('/delete_unit', 'UnitController@delete')->name('admin.delete_unit');
+        Route::post('/create_unit', 'UnitController@store')->name('admin.create_unit.submit')->middleware('permission:اضافة الوحدات');
+        Route::get('/edit_unit', 'UnitController@edit')->middleware('permission:تعديل الوحدات');
+        Route::post('/update_unit', 'UnitController@update')->name('admin.update_unit.submit')->middleware('permission:تعديل الوحدات');
+        Route::post('/delete_unit', 'UnitController@delete')->name('admin.delete_unit')->middleware('permission:حذف الوحدات');
 
         Route::get('/attribute', 'AttributeController@index');
-        Route::post('/create_attribute', 'AttributeController@store')->name('admin.create_attribute.submit');
-        Route::get('/edit_attribute', 'AttributeController@edit');
-        Route::post('/update_attribute', 'AttributeController@update')->name('admin.update_attribute.submit');
-        Route::post('/delete_attribute', 'AttributeController@delete')->name('admin.delete_attribute');
+        Route::post('/create_attribute', 'AttributeController@store')->name('admin.create_attribute.submit')->middleware('permission:اضافة الخصائص');
+        Route::get('/edit_attribute', 'AttributeController@edit')->middleware('permission:تعديل الخصائص');
+        Route::post('/update_attribute', 'AttributeController@update')->name('admin.update_attribute.submit')->middleware('permission:تعديل الخصائص');
+        Route::post('/delete_attribute', 'AttributeController@delete')->name('admin.delete_attribute')->middleware('permission:حذف الخصائص');
 
         Route::get('/printer', 'PrinterController@index');
         Route::post('/create_printer', 'PrinterController@store')->name('admin.create_printer.submit');
@@ -191,15 +191,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
 
         Route::get('/branch', 'BranchController@index');
-        Route::post('/create_branch', 'BranchController@store')->name('admin.create_branch.submit');
-        Route::get('/edit_branch', 'BranchController@edit');
-        Route::post('/update_branch', 'BranchController@update')->name('admin.update_branch.submit');
-        Route::post('/delete_branch', 'BranchController@delete')->name('admin.delete_branch');
+        Route::post('/create_branch', 'BranchController@store')->name('admin.create_branch.submit')->middleware('permission:اضافة الفروع');
+        Route::get('/edit_branch', 'BranchController@edit')->middleware('permission:تعديل الفروع');
+        Route::post('/update_branch', 'BranchController@update')->name('admin.update_branch.submit')->middleware('permission:تعديل الفروع');
+        Route::post('/delete_branch', 'BranchController@delete')->name('admin.delete_branch')->middleware('permission:حذف الفروع');
 
 //Vouchers - السندات
         Route::get('/voucher', 'VouchersController@index');
-        Route::post('/create_voucher', 'VouchersController@store')->name('admin.create_voucher.submit');
-        Route::post('/delete_voucher', 'VouchersController@delete')->name('admin.delete_voucher');
+        Route::post('/create_voucher', 'VouchersController@store')->name('admin.create_voucher.submit')->middleware('permission:اضافة الفروع');
+        Route::post('/delete_voucher', 'VouchersController@delete')->name('admin.delete_voucher')->middleware('permission:حذف السندات');
 
         
         Route::get('/roles', 'RoleController@index');
@@ -222,9 +222,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::get('/barcode_purchas/{id}', 'StockController@purchasbarcode');
         Route::get('/create_stock', 'StockController@create');
         Route::post('/create_stock', 'StockController@store')->name('admin.create_stock.submit');
-        Route::get('/edit_stock', 'StockController@edit');
-        Route::post('/edit_stock', 'StockController@update')->name('admin.edit_stock.submit');
-        Route::post('/delete_stock', 'StockController@delete')->name('admin.delete_stock');
+        Route::get('/edit_stock', 'StockController@edit')->middleware('permission:تعديل المخزون');
+        Route::post('/edit_stock', 'StockController@update')->name('admin.edit_stock.submit')->middleware('permission:تعديل المخزون');
+        Route::post('/delete_stock', 'StockController@delete')->name('admin.delete_stock')->middleware('permission:حذف المخزون');
         Route::get('/reviews/{id}', 'StockController@reviews');
         Route::get('/filter_stock', 'StockController@filter')->name('admin.filter_stock.submit');
         // Route::get('/filter_stock', 'StockController@index');
@@ -290,8 +290,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
 
         Route::get('/inventory', 'InventoryController@index');
-        Route::post('/create_inventory', 'InventoryController@store');
-        Route::post('/delete_inventory', 'InventoryController@delete')->name('admin.delete_inventory');
+        Route::post('/create_inventory', 'InventoryController@store')->middleware('permission:اضافة جرد مخزون');
+        Route::post('/delete_inventory', 'InventoryController@delete')->name('admin.delete_inventory')->middleware('permission:حذف جرد مخزون');
 //details
         Route::get('/inventory/{id}', 'InventoryController@show');
         Route::get('/add_inventory', 'InventoryController@add_inventory');
@@ -310,18 +310,18 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
         Route::get('/damageditem', 'DamagedItemController@index');
         Route::get('/sales_damageditem/{id}', 'DamagedItemController@sales');
-        Route::post('/create_damageditem', 'DamagedItemController@store')->name('admin.create_damageditem.submit');
+        Route::post('/create_damageditem', 'DamagedItemController@store')->name('admin.create_damageditem.submit')->middleware('permission:اضافة الاصناف التالفة');
         Route::get('/edit_damageditem', 'DamagedItemController@edit');
         Route::post('/update_damageditem', 'DamagedItemController@update')->name('admin.update_damageditem.submit');
-        Route::post('/delete_damageditem', 'DamagedItemController@delete')->name('admin.delete_damageditem');
+        Route::post('/delete_damageditem', 'DamagedItemController@delete')->name('admin.delete_damageditem')->middleware('permission:حذف الاصناف التالفة');
         Route::get('/filter_damageditem', 'DamagedItemController@filter')->name('admin.filter_damageditem.submit');
 
         Route::get('/deficiencies', 'DeficienciesController@index');
         Route::get('/sales_deficiencies/{id}', 'DeficienciesController@sales');
-        Route::post('/create_deficiencies', 'DeficienciesController@store')->name('admin.create_deficiencies.submit');
+        Route::post('/create_deficiencies', 'DeficienciesController@store')->name('admin.create_deficiencies.submit')->middleware('permission:اضافة النواقص');
         Route::get('/edit_deficiencies', 'DeficienciesController@edit');
         Route::post('/update_deficiencies', 'DeficienciesController@update')->name('admin.update_deficiencies.submit');
-        Route::post('/delete_deficiencies', 'DeficienciesController@delete')->name('admin.delete_deficiencies');
+        Route::post('/delete_deficiencies', 'DeficienciesController@delete')->name('admin.delete_deficiencies')->middleware('permission:حذف النواقص');
         Route::get('/filter_deficiencies', 'DeficienciesController@filter')->name('admin.filter_deficiencies.submit');
 
 
