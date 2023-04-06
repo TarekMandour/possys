@@ -20,8 +20,14 @@
                 <div class="card-body">
 
                     <div class="m-b-30">
+                        @can('اضافة السلايدر')
+
                         <a href="{{ url('/admin/create_slider/') }}" class="btn btn-purple waves-effect waves-light" role="button">اضف جديد</a>
+                        @endcan
+                        @can('حذف السلايدر')
+
                         <a href="#" id="btn_delete" data-token="{{ csrf_token() }}" class="btn btn-danger waves-effect waves-light" role="button">حذف</a>
+                        @endcan
                     </div>
                     @if (session()->has('msg'))
                         <div class="alert alert-success">
@@ -63,7 +69,10 @@
                                 </td>
                                 <td>
                                     <a href="{{ url('/admin/show_slider/'.$row->id) }}" class="btn btn-purple btn-sm waves-effect waves-light"><i class="ti-eye"></i></a>
+                                    @can('تعديل السلايدر')
+
                                     <a href="{{ url('/admin/edit_slider/'.$row->id) }}" class="btn btn-info btn-sm waves-effect waves-light"><i class="ti-pencil-alt"></i></a>
+                                    @endcan
                                 </td>
                             </tr>
                             @endforeach

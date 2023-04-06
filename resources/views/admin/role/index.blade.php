@@ -23,10 +23,16 @@
                         <div class="card-body">
 
                             <div class="m-b-30">
+                                @can('اضافة الصلاحيات')
+
                                 <a href="{{ url('/admin/create_role/') }}"
                                    class="btn btn-purple waves-effect waves-light" role="button">اضف جديد</a>
+                                @endcan
+                                @can('حذف الصلاحيات')
+
                                 <a href="#" id="btn_delete" data-token="{{ csrf_token() }}"
                                    class="btn btn-danger waves-effect waves-light" role="button">حذف</a>
+                                @endcan
                             </div>
                             @if (session()->has('msg'))
                                 <div class="alert alert-success">
@@ -67,9 +73,12 @@
                                             @endforeach
                                             </td>
                                         <td>
+                                            @can('تعديل الصلاحيات')
+
                                             <a href="{{ url('/admin/edit_role/'.$row->id) }}"
                                                class="btn btn-info btn-sm waves-effect waves-light"><i
                                                     class="ti-pencil-alt"></i></a>
+                                            @endcan
                                         </td>
                                     </tr>
                                 @endforeach

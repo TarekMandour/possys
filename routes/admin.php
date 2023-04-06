@@ -19,11 +19,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
         Route::get('/admins', 'AdminController@index');
         Route::get('/show_admin/{id}', 'AdminController@show');
-        Route::get('/create_admin', 'AdminController@create');
-        Route::post('/create_admin', 'AdminController@store')->name('admin.create_admin.submit');
-        Route::get('/edit_admin/{id}', 'AdminController@edit');
-        Route::post('/edit_admin', 'AdminController@update')->name('admin.edit_admin.submit');
-        Route::post('/delete_admin', 'AdminController@delete')->name('admin.delete_admin');
+        Route::get('/create_admin', 'AdminController@create')->middleware('permission:اضافة المديرين');
+        Route::post('/create_admin', 'AdminController@store')->name('admin.create_admin.submit')->middleware('permission:اضافة المديرين');
+        Route::get('/edit_admin/{id}', 'AdminController@edit')->middleware('permission:تعديل المديرين');
+        Route::post('/edit_admin', 'AdminController@update')->name('admin.edit_admin.submit')->middleware('permission:تعديل المديرين');
+        Route::post('/delete_admin', 'AdminController@delete')->name('admin.delete_admin')->middleware('permission:حذف المديرين');
 
         Route::get('/bonus/{id}', 'BonusController@index');
         Route::get('/create_bonus', 'BonusController@store')->name('admin.create_bonus.submit');
@@ -33,18 +33,18 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::get('/show_client/{id}', 'ClientController@show');
         Route::get('/create_client', 'ClientController@create')->middleware('permission:اضافة العملاء');
         Route::post('/create_client', 'ClientController@store')->name('admin.create_client.submit')->middleware('permission:اضافة العملاء');
-        Route::get('/edit_client/{id}', 'ClientController@edit')->middleware('permission:تعديل الخصائص');
-        Route::post('/edit_client', 'ClientController@update')->name('admin.edit_client.submit')->middleware('permission:تعديل الخصائص');
-        Route::post('/delete_client', 'ClientController@delete')->name('admin.delete_client')->middleware('permission:حذف الخصائص');
+        Route::get('/edit_client/{id}', 'ClientController@edit')->middleware('permission:تعديل العملاء');
+        Route::post('/edit_client', 'ClientController@update')->name('admin.edit_client.submit')->middleware('permission:تعديل العملاء');
+        Route::post('/delete_client', 'ClientController@delete')->name('admin.delete_client')->middleware('permission:حذف العملاء');
         Route::get('/sales_client/{id}', 'ClientController@sales');
 
         Route::get('/sliders', 'SliderController@index');
         Route::get('/show_slider/{id}', 'SliderController@show');
-        Route::get('/create_slider', 'SliderController@create');
-        Route::post('/create_slider', 'SliderController@store')->name('admin.create_slider.submit');
-        Route::get('/edit_slider/{id}', 'SliderController@edit');
-        Route::post('/edit_slider', 'SliderController@update')->name('admin.edit_slider.submit');
-        Route::post('/delete_slider', 'SliderController@delete')->name('admin.delete_slider');
+        Route::get('/create_slider', 'SliderController@create')->middleware('permission:اضافة السلايدر');
+        Route::post('/create_slider', 'SliderController@store')->name('admin.create_slider.submit')->middleware('permission:اضافة السلايدر');
+        Route::get('/edit_slider/{id}', 'SliderController@edit')->middleware('permission:تعديل السلايدر');
+        Route::post('/edit_slider', 'SliderController@update')->name('admin.edit_slider.submit')->middleware('permission:تعديل السلايدر');
+        Route::post('/delete_slider', 'SliderController@delete')->name('admin.delete_slider')->middleware('permission:حذف السلايدر');
 
         Route::get('/contacts', 'ContactController@index');
         Route::get('/show_contact/{id}', 'ContactController@show');
@@ -86,7 +86,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
 
         Route::get('/edit_setting/{id}', 'SettingController@edit');
-        Route::post('/edit_setting', 'SettingController@update')->name('admin.edit_setting.submit');
+        Route::post('/edit_setting', 'SettingController@update')->name('admin.edit_setting.submit')->middleware('permission:تعديل الاعدادات');
 
         Route::get('/menu', 'MenuController@index');
         Route::post('/create_menu', 'MenuController@store')->name('admin.create_menu.submit');
@@ -102,25 +102,25 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
         Route::get('/supplier', 'SupplierController@index');
         Route::get('/sales_supplier/{id}', 'SupplierController@sales');
-        Route::post('/create_supplier', 'SupplierController@store')->name('admin.create_supplier.submit');
-        Route::get('/edit_supplier', 'SupplierController@edit');
-        Route::post('/update_supplier', 'SupplierController@update')->name('admin.update_supplier.submit');
-        Route::post('/delete_supplier', 'SupplierController@delete')->name('admin.delete_supplier');
+        Route::post('/create_supplier', 'SupplierController@store')->name('admin.create_supplier.submit')->middleware('permission:اضافة الموردين');
+        Route::get('/edit_supplier', 'SupplierController@edit')->middleware('permission:تعديل الموردين');
+        Route::post('/update_supplier', 'SupplierController@update')->name('admin.update_supplier.submit')->middleware('permission:تعديل الموردين');
+        Route::post('/delete_supplier', 'SupplierController@delete')->name('admin.delete_supplier')->middleware('permission:حذف الموردين');
 
         Route::get('/damageditem', 'DamagedItemController@index');
         Route::get('/sales_damageditem/{id}', 'DamagedItemController@sales');
-        Route::post('/create_damageditem', 'DamagedItemController@store')->name('admin.create_damageditem.submit');
+        Route::post('/create_damageditem', 'DamagedItemController@store')->name('admin.create_damageditem.submit')->middleware('permission:اضافة الاصناف التالفة');
         Route::get('/edit_damageditem', 'DamagedItemController@edit');
         Route::post('/update_damageditem', 'DamagedItemController@update')->name('admin.update_damageditem.submit');
-        Route::post('/delete_damageditem', 'DamagedItemController@delete')->name('admin.delete_damageditem');
+        Route::post('/delete_damageditem', 'DamagedItemController@delete')->name('admin.delete_damageditem')->middleware('permission:حذف الاصناف التالفة');
         Route::get('/filter_damageditem', 'DamagedItemController@filter')->name('admin.filter_damageditem.submit');
 
         Route::get('/deficiencies', 'DeficienciesController@index');
         Route::get('/sales_deficiencie/{id}', 'DeficienciesController@sales');
-        Route::post('/create_deficiencie', 'DeficienciesController@store')->name('admin.create_deficiencie.submit');
+        Route::post('/create_deficiencie', 'DeficienciesController@store')->name('admin.create_deficiencie.submit')->middleware('permission:اضافة النواقص');
         Route::get('/edit_deficiencie', 'DeficienciesController@edit');
         Route::post('/update_deficiencie', 'DeficienciesController@update')->name('admin.update_deficiencie.submit');
-        Route::post('/delete_deficiencie', 'DeficienciesController@delete')->name('admin.delete_deficiencie');
+        Route::post('/delete_deficiencie', 'DeficienciesController@delete')->name('admin.delete_deficiencie')->middleware('permission:حذف النواقص');
         Route::get('/filter_deficiencie', 'DeficienciesController@filter')->name('admin.filter_deficiencie.submit');
 
         Route::get('/unit', 'UnitController@index');
@@ -136,28 +136,28 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::post('/delete_attribute', 'AttributeController@delete')->name('admin.delete_attribute')->middleware('permission:حذف الخصائص');
 
         Route::get('/printer', 'PrinterController@index');
-        Route::post('/create_printer', 'PrinterController@store')->name('admin.create_printer.submit');
-        Route::get('/edit_printer', 'PrinterController@edit');
-        Route::post('/update_printer', 'PrinterController@update')->name('admin.update_printer.submit');
-        Route::post('/delete_printer', 'PrinterController@delete')->name('admin.delete_printer');
+        Route::post('/create_printer', 'PrinterController@store')->name('admin.create_printer.submit')->middleware('permission:اضافة الطابعات');
+        Route::get('/edit_printer', 'PrinterController@edit')->middleware('permission:تعديل الطابعات');
+        Route::post('/update_printer', 'PrinterController@update')->name('admin.update_printer.submit')->middleware('permission:تعديل الطابعات');
+        Route::post('/delete_printer', 'PrinterController@delete')->name('admin.delete_printer')->middleware('permission:حذف الطابعات');
 
         Route::get('/tablecat', 'TableCatController@index');
-        Route::post('/create_tablecat', 'TableCatController@store')->name('admin.create_tablecat.submit');
-        Route::get('/edit_tablecat', 'TableCatController@edit');
-        Route::post('/update_tablecat', 'TableCatController@update')->name('admin.update_tablecat.submit');
-        Route::post('/delete_tablecat', 'TableCatController@delete')->name('admin.delete_tablecat');
+        Route::post('/create_tablecat', 'TableCatController@store')->name('admin.create_tablecat.submit')->middleware('permission:اضافة اقسام الطاولات');
+        Route::get('/edit_tablecat', 'TableCatController@edit')->middleware('permission:تعديل اقسام الطاولات');
+        Route::post('/update_tablecat', 'TableCatController@update')->name('admin.update_tablecat.submit')->middleware('permission:تعديل اقسام الطاولات');
+        Route::post('/delete_tablecat', 'TableCatController@delete')->name('admin.delete_tablecat')->middleware('permission:حذف اقسام الطاولات');
 
         Route::get('/table', 'TableController@index');
-        Route::post('/create_table', 'TableController@store')->name('admin.create_table.submit');
-        Route::get('/edit_table', 'TableController@edit');
-        Route::post('/update_table', 'TableController@update')->name('admin.update_table.submit');
-        Route::post('/delete_table', 'TableController@delete')->name('admin.delete_table');
+        Route::post('/create_table', 'TableController@store')->name('admin.create_table.submit')->middleware('permission:اضافة الطاولات');
+        Route::get('/edit_table', 'TableController@edit')->middleware('permission:تعديل الطاولات');
+        Route::post('/update_table', 'TableController@update')->name('admin.update_table.submit')->middleware('permission:تعديل الطاولات');
+        Route::post('/delete_table', 'TableController@delete')->name('admin.delete_table')->middleware('permission:حذف الطاولات');
 
         Route::get('/discount', 'DiscountsController@index');
-        Route::post('/create_discount', 'DiscountsController@store')->name('admin.create_discount.submit');
-        Route::get('/edit_discount', 'DiscountsController@edit');
-        Route::post('/update_discount', 'DiscountsController@update')->name('admin.update_discount.submit');
-        Route::post('/delete_discount', 'DiscountsController@delete')->name('admin.delete_discount');
+        Route::post('/create_discount', 'DiscountsController@store')->name('admin.create_discount.submit')->middleware('permission:اضافة الخصومات');
+        Route::get('/edit_discount', 'DiscountsController@edit')->middleware('permission:تعديل الخصومات');
+        Route::post('/update_discount', 'DiscountsController@update')->name('admin.update_discount.submit')->middleware('permission:تعديل الخصومات');
+        Route::post('/delete_discount', 'DiscountsController@delete')->name('admin.delete_discount')->middleware('permission:حذف الخصومات');
 
         Route::get('/publisher', 'PublisherController@index');
         Route::post('/create_publisher', 'PublisherController@store')->name('admin.create_publisher.submit');
@@ -204,11 +204,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         
         Route::get('/roles', 'RoleController@index');
         Route::get('/show_role/{id}', 'RoleController@show');
-        Route::get('/create_role', 'RoleController@create');
-        Route::post('/create_role', 'RoleController@store')->name('admin.create_role.submit');
-        Route::get('/edit_role/{id}', 'RoleController@edit');
-        Route::post('/edit_role', 'RoleController@update')->name('admin.edit_role.submit');
-        Route::post('/delete_role', 'RoleController@delete')->name('admin.delete_role');
+        Route::get('/create_role', 'RoleController@create')->middleware('permission:اضافة الصلاحيات');
+        Route::post('/create_role', 'RoleController@store')->name('admin.create_role.submit')->middleware('permission:اضافة الصلاحيات');
+        Route::get('/edit_role/{id}', 'RoleController@edit')->middleware('permission:تعديل الصلاحيات');
+        Route::post('/edit_role', 'RoleController@update')->name('admin.edit_role.submit')->middleware('permission:تعديل الصلاحيات');
+        Route::post('/delete_role', 'RoleController@delete')->name('admin.delete_role')->middleware('permission:حذف الصلاحيات');
 
     });
 

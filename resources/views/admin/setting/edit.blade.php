@@ -35,9 +35,12 @@
                                 @csrf
                                 <div class="form-group m-b-0">
                                     <div>
+                                        @can('تعديل الاعدادات')
+
                                         <button type="submit" class="btn btn-primary waves-effect waves-light m-r-5">
                                             حفظ
                                         </button>
+                                        @endcan
                                         <button onclick="window.location.href='{{ url('/admin') }}'"type="button" class="btn btn-secondary waves-effect">
                                             الغاء
                                         </button>
