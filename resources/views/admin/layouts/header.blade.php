@@ -18,132 +18,217 @@
                             class="fa fa-home"></i></a>
                 </li>
 
+
+
                 <li class="menu-title">ادارة المبيعات</li>
+                @can('التحكم بفاتورة المبيعات')
+
                 <li>
                     <a href="{{url('admin/cashier')}}" class="waves-effect"><span> فاتورة جديده</span> <i
                             class="fa fa-paperclip"></i></a>
                 </li>
+                @endcan
+                @can('التحكم بقائمة الفواتير')
+
                 <li>
                     <a href="{{url('admin/orders')}}" class="waves-effect"><span> قائمة الفواتير</span> <i
                             class="fa fa-paperclip"></i></a>
                 </li>
+                @endcan
+                @can('التحكم بملخص المبيعات')
+
                 <li>
                     <a href="{{url('admin/sales-inv-report')}}" class="waves-effect"><span> ملخص المبيعات</span> <i
                             class="fa fa-paperclip"></i></a>
                 </li>
+                @endcan
                 <li class="menu-title">ادارة المخزون</li>
+                @can('التحكم بالمخزون')
+
                 <li>
                     <a href="{{url('admin/stocks')}}" class="waves-effect"><span> المخزون</span> <i
                             class="fa fa-pagelines"></i></a>
                 </li>
+                @endcan
+                @can('التحكم باذونات التحويل')
+
                 <li>
                     <a href="{{url('admin/transfer')}}" class="waves-effect"><span> اذونات التحويل</span> <i class="fa fa-pagelines"></i></a>
                 </li>
+                @endcan
+                @can('التحكم بجرد المخزون')
+
                 <li>
                     <a href="{{url('admin/inventory')}}" class="waves-effect"><span> جرد المخزون</span> <i class="fa fa-pagelines"></i></a>
                 </li>
+                @endcan
+                @can('التحكم بالاصناف التالفة')
+
                 <li>
                     <a href="{{url('admin/damageditem')}}" class="waves-effect"><span> الاصناف التالفة</span> <i
                             class="fa fa-empire"></i></a>
                 </li>
+                @endcan
+                @can('التحكم بالنواقص')
+
                 <li>
                     <a href="{{url('admin/deficiencies')}}" class="waves-effect"><span> النواقص</span> <i
                             class="fa fa-empire"></i></a>
                 </li>
+                @endcan
                 <li class="menu-title">ادارة المشتريات</li>
+
+                @can('التحكم بفاتورة الشراء')
                 <li>
                     <a href="{{url('admin/create_purchas')}}" class="waves-effect"><span> فاتورة شراء</span> <i
                             class="fa fa-pagelines"></i></a>
                 </li>
+                @endcan
+                @can('التحكم بقائمة المشتريات')
                 <li>
                     <a href="{{url('admin/purchass')}}" class="waves-effect"><span> قائمة الفواتير</span> <i
                             class="fa fa-compass"></i></a>
                 </li>
 
-
+                @endcan
                 @if(\Illuminate\Support\Facades\Auth::user()->type == 0)
                     <li class="menu-title">التقارير</li>
+                    @can('التحكم بالتقرير الضريبي')
+
                     <li>
                         <a href="{{url('admin/tax-report')}}" class="waves-effect"><span> التقرير الضريبي</span> <i
                                 class="fa fa-paperclip"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بتقرير المبيعات')
+
                     <li>
                         <a href="{{url('admin/sales-report')}}" class="waves-effect"><span> تقرير المبيعات</span> <i
                                 class="fa fa-money"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بتقرير الموظفين')
+
                     <li>
                         <a href="{{url('admin/bonus-report')}}" class="waves-effect"><span> تقرير الموظفين</span> <i
                                 class="fa fa-money"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالسندات')
+
                     <li>
                         <a href="{{url('admin/voucher')}}" class="waves-effect"><span>السندات</span> <i
                                 class="fa fa-paperclip"></i></a>
                     </li>
+                    @endcan
 
                     <li class="menu-title">ادارة المحتوى</li>
+                    @can('التحكم بالفروع')
+
                     <li>
                         <a href="{{url('admin/branch')}}" class="waves-effect"><span> الفروع</span> <i
                                 class="fa fa-server"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالاقسام')
+
                     <li>
                         <a href="{{url('admin/category')}}" class="waves-effect"><span> الاقسام</span> <i
                                 class="fa fa-server"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالوحدات')
+
                     <li>
                         <a href="{{url('admin/unit')}}" class="waves-effect"><span> الوحدات</span> <i
                                 class="fa fa-empire"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالمنتجات')
+
                     <li>
                         <a href="{{url('admin/products')}}" class="waves-effect"><span> المنتجات</span> <i
                                 class="fa fa-empire"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالخصائص')
+
                     <li>
                         <a href="{{url('admin/attribute')}}" class="waves-effect"><span> الخصائص</span> <i
                                 class="fa fa-empire"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالعملاء')
+
                     <li>
                         <a href="{{url('admin/clients')}}" class="waves-effect"><span> العملاء </span> <i
                                 class="fa fa-users"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم باقسام الطاولات')
+
                     <li>
                         <a href="{{url('admin/tablecat')}}" class="waves-effect"><span> اقسام الطاولات </span> <i
                                 class="fa fa-users"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالطاولات')
+
                     <li>
                         <a href="{{url('admin/table')}}" class="waves-effect"><span>  الطاولات </span> <i
                                 class="fa fa-users"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالطابعات')
+
                     <li>
                         <a href="{{url('admin/printer')}}" class="waves-effect"><span> اعدادات الطابعات </span> <i
                                 class="fa fa-users"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالموردين')
+
                     <li>
                         <a href="{{url('admin/supplier')}}" class="waves-effect"><span> الموردين </span> <i
                                 class="fa fa-users"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالسلايدر')
+
                     <li>
                         <a href="{{url('admin/sliders')}}" class="waves-effect"><span> السلايدر</span> <i
                                 class="fa fa-sliders"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالخصومات')
+
                     <li>
                         <a href="{{url('admin/discount')}}" class="waves-effect"><span> نوع الخصم</span> <i
                                 class="fa fa-sliders"></i></a>
                     </li>
+                    @endcan
                     <li class="menu-title">الاعدادات</li>
+                    @can('التحكم بالاعدادات')
+
                     <li>
                         <a href="{{url('admin/edit_setting/1')}}" class="waves-effect"><span> الاعدادات</span> <i
                                 class="fa fa-edit"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالصلاحيات')
 
                     <li>
                         <a href="{{url('admin/roles')}}" class="waves-effect"><span> الصلاحيات</span> <i
                                 class="fa fa-edit"></i></a>
                     </li>
+                    @endcan
+                    @can('التحكم بالمديرين')
 
                     <li>
                         <a href="{{url('admin/admins')}}" class="waves-effect"><span> المديرين / العاملين</span> <i
                                 class="fa fa-user-secret"></i></a>
                     </li>
+                    @endcan
                 @endif
 
                 {{--                <li>--}}

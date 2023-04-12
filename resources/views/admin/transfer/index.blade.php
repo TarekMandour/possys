@@ -60,10 +60,14 @@
 
                                     </select>
                                 </div>
+                                
                                 <div class="col-sm-6" style="text-align: left">
+                                    @can('اضافة اذونات التحويل')
+
                                     <a href="{{url('admin/add-transfer')}}" class="btn btn-primary waves-effect waves-light" >
                                         تحويل جديد
                                     </a>
+                                    @endcan
                                 </div>
 
 

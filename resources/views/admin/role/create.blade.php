@@ -44,10 +44,18 @@
                                 @endphp
                                 <div class="form-group">
                                     @foreach ($permissions as $permission)
+                                    @if (str_contains($permission->name, 'التحكم'))
+
+                                    <div class="custom-control custom-checkbox" style="margin-left: 100px;margin-bottom: 10px;margin-top: 20px;">
+                                        <input class="custom-control-input" type="checkbox" name="permissions[]" value="{{ $permission->id }}" id="{{$i}}"">
+                                        <label style="font-weight: 600;font-size: 16px !important;" class="custom-control-label" for="{{$i}}"">{{ $permission->name }}</label>
+                                    </div>
+                                    @else
                                     <div class="custom-control custom-checkbox" style="margin-left: 100px">
                                         <input class="custom-control-input" type="checkbox" name="permissions[]" value="{{ $permission->id }}" id="{{$i}}"">
                                         <label class="custom-control-label" for="{{$i}}"">{{ $permission->name }}</label>
                                     </div>
+                                    @endif
                                     @php
                                     $i++;
                                     @endphp

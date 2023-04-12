@@ -17,7 +17,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
         Route::get('/', 'HomeController@index')->name('admin.blank');
 
-        Route::get('/admins', 'AdminController@index');
+        Route::get('/admins', 'AdminController@index')->middleware('permission:التحكم بالمديرين');
         Route::get('/show_admin/{id}', 'AdminController@show');
         Route::get('/create_admin', 'AdminController@create')->middleware('permission:اضافة المديرين');
         Route::post('/create_admin', 'AdminController@store')->name('admin.create_admin.submit')->middleware('permission:اضافة المديرين');
@@ -29,7 +29,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::get('/create_bonus', 'BonusController@store')->name('admin.create_bonus.submit');
         Route::post('/delete_bonus', 'BonusController@delete')->name('admin.delete_bonus');
 
-        Route::get('/clients', 'ClientController@index');
+        Route::get('/clients', 'ClientController@index')->middleware('permission:التحكم بالعملاء');
         Route::get('/show_client/{id}', 'ClientController@show');
         Route::get('/create_client', 'ClientController@create')->middleware('permission:اضافة العملاء');
         Route::post('/create_client', 'ClientController@store')->name('admin.create_client.submit')->middleware('permission:اضافة العملاء');
@@ -38,7 +38,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::post('/delete_client', 'ClientController@delete')->name('admin.delete_client')->middleware('permission:حذف العملاء');
         Route::get('/sales_client/{id}', 'ClientController@sales');
 
-        Route::get('/sliders', 'SliderController@index');
+        Route::get('/sliders', 'SliderController@index')->middleware('permission:التحكم بالسلايدر');
         Route::get('/show_slider/{id}', 'SliderController@show');
         Route::get('/create_slider', 'SliderController@create')->middleware('permission:اضافة السلايدر');
         Route::post('/create_slider', 'SliderController@store')->name('admin.create_slider.submit')->middleware('permission:اضافة السلايدر');
@@ -70,7 +70,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::post('/edit_service', 'ServiceController@update')->name('admin.edit_service.submit');
         Route::post('/delete_service', 'ServiceController@delete')->name('admin.delete_service');
 
-        Route::get('/products', 'PostController@index');
+        Route::get('/products', 'PostController@index')->middleware('permission:التحكم بالمنتجات');
         Route::get('/show_post/{id}', 'PostController@show');
         Route::get('/create_post', 'PostController@create')->middleware('permission:اضافة المنتجات');
         Route::post('/create_post', 'PostController@store')->name('admin.create_post.submit')->middleware('permission:اضافة المنتجات');
@@ -85,7 +85,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::get('/export-product', 'PostController@export');
 
 
-        Route::get('/edit_setting/{id}', 'SettingController@edit');
+        Route::get('/edit_setting/{id}', 'SettingController@edit')->middleware('permission:التحكم بالاعدادات');
         Route::post('/edit_setting', 'SettingController@update')->name('admin.edit_setting.submit')->middleware('permission:تعديل الاعدادات');
 
         Route::get('/menu', 'MenuController@index');
@@ -94,13 +94,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::post('/update_menu', 'MenuController@update')->name('admin.update_menu.submit');
         Route::post('/delete_menu', 'MenuController@delete')->name('admin.delete_menu');
 
-        Route::get('/category', 'CategoryController@index');
+        Route::get('/category', 'CategoryController@index')->middleware('permission:التحكم بالاقسام');
         Route::post('/create_category', 'CategoryController@store')->name('admin.create_category.submit');
         Route::get('/edit_category', 'CategoryController@edit');
         Route::post('/update_category', 'CategoryController@update')->name('admin.update_category.submit');
         Route::post('/delete_category', 'CategoryController@delete')->name('admin.delete_category');
 
-        Route::get('/supplier', 'SupplierController@index');
+        Route::get('/supplier', 'SupplierController@index')->middleware('permission:التحكم بالموردين');
         Route::get('/sales_supplier/{id}', 'SupplierController@sales');
         Route::post('/create_supplier', 'SupplierController@store')->name('admin.create_supplier.submit')->middleware('permission:اضافة الموردين');
         Route::get('/edit_supplier', 'SupplierController@edit')->middleware('permission:تعديل الموردين');
@@ -115,7 +115,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::post('/delete_damageditem', 'DamagedItemController@delete')->name('admin.delete_damageditem')->middleware('permission:حذف الاصناف التالفة');
         Route::get('/filter_damageditem', 'DamagedItemController@filter')->name('admin.filter_damageditem.submit');
 
-        Route::get('/deficiencies', 'DeficienciesController@index');
+        Route::get('/deficiencies', 'DeficienciesController@index')->middleware('permission:التحكم بالنواقص');
         Route::get('/sales_deficiencie/{id}', 'DeficienciesController@sales');
         Route::post('/create_deficiencie', 'DeficienciesController@store')->name('admin.create_deficiencie.submit')->middleware('permission:اضافة النواقص');
         Route::get('/edit_deficiencie', 'DeficienciesController@edit');
@@ -123,37 +123,37 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::post('/delete_deficiencie', 'DeficienciesController@delete')->name('admin.delete_deficiencie')->middleware('permission:حذف النواقص');
         Route::get('/filter_deficiencie', 'DeficienciesController@filter')->name('admin.filter_deficiencie.submit');
 
-        Route::get('/unit', 'UnitController@index');
+        Route::get('/unit', 'UnitController@index')->middleware('permission:التحكم بالوحدات');
         Route::post('/create_unit', 'UnitController@store')->name('admin.create_unit.submit')->middleware('permission:اضافة الوحدات');
         Route::get('/edit_unit', 'UnitController@edit')->middleware('permission:تعديل الوحدات');
         Route::post('/update_unit', 'UnitController@update')->name('admin.update_unit.submit')->middleware('permission:تعديل الوحدات');
         Route::post('/delete_unit', 'UnitController@delete')->name('admin.delete_unit')->middleware('permission:حذف الوحدات');
 
-        Route::get('/attribute', 'AttributeController@index');
+        Route::get('/attribute', 'AttributeController@index')->middleware('permission:التحكم بالخصائص');
         Route::post('/create_attribute', 'AttributeController@store')->name('admin.create_attribute.submit')->middleware('permission:اضافة الخصائص');
         Route::get('/edit_attribute', 'AttributeController@edit')->middleware('permission:تعديل الخصائص');
         Route::post('/update_attribute', 'AttributeController@update')->name('admin.update_attribute.submit')->middleware('permission:تعديل الخصائص');
         Route::post('/delete_attribute', 'AttributeController@delete')->name('admin.delete_attribute')->middleware('permission:حذف الخصائص');
 
-        Route::get('/printer', 'PrinterController@index');
+        Route::get('/printer', 'PrinterController@index')->middleware('permission:التحكم بالطابعات');
         Route::post('/create_printer', 'PrinterController@store')->name('admin.create_printer.submit')->middleware('permission:اضافة الطابعات');
         Route::get('/edit_printer', 'PrinterController@edit')->middleware('permission:تعديل الطابعات');
         Route::post('/update_printer', 'PrinterController@update')->name('admin.update_printer.submit')->middleware('permission:تعديل الطابعات');
         Route::post('/delete_printer', 'PrinterController@delete')->name('admin.delete_printer')->middleware('permission:حذف الطابعات');
 
-        Route::get('/tablecat', 'TableCatController@index');
+        Route::get('/tablecat', 'TableCatController@index')->middleware('permission:التحكم باقسام الطاولات');
         Route::post('/create_tablecat', 'TableCatController@store')->name('admin.create_tablecat.submit')->middleware('permission:اضافة اقسام الطاولات');
         Route::get('/edit_tablecat', 'TableCatController@edit')->middleware('permission:تعديل اقسام الطاولات');
         Route::post('/update_tablecat', 'TableCatController@update')->name('admin.update_tablecat.submit')->middleware('permission:تعديل اقسام الطاولات');
         Route::post('/delete_tablecat', 'TableCatController@delete')->name('admin.delete_tablecat')->middleware('permission:حذف اقسام الطاولات');
 
-        Route::get('/table', 'TableController@index');
+        Route::get('/table', 'TableController@index')->middleware('permission:التحكم بالطاولات');
         Route::post('/create_table', 'TableController@store')->name('admin.create_table.submit')->middleware('permission:اضافة الطاولات');
         Route::get('/edit_table', 'TableController@edit')->middleware('permission:تعديل الطاولات');
         Route::post('/update_table', 'TableController@update')->name('admin.update_table.submit')->middleware('permission:تعديل الطاولات');
         Route::post('/delete_table', 'TableController@delete')->name('admin.delete_table')->middleware('permission:حذف الطاولات');
 
-        Route::get('/discount', 'DiscountsController@index');
+        Route::get('/discount', 'DiscountsController@index')->middleware('permission:التحكم بالخصومات');
         Route::post('/create_discount', 'DiscountsController@store')->name('admin.create_discount.submit')->middleware('permission:اضافة الخصومات');
         Route::get('/edit_discount', 'DiscountsController@edit')->middleware('permission:تعديل الخصومات');
         Route::post('/update_discount', 'DiscountsController@update')->name('admin.update_discount.submit')->middleware('permission:تعديل الخصومات');
@@ -190,19 +190,19 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::post('/delete_language', 'LangController@delete')->name('admin.delete_language');
 
 
-        Route::get('/branch', 'BranchController@index');
+        Route::get('/branch', 'BranchController@index')->middleware('permission:التحكم بالفروع');
         Route::post('/create_branch', 'BranchController@store')->name('admin.create_branch.submit')->middleware('permission:اضافة الفروع');
         Route::get('/edit_branch', 'BranchController@edit')->middleware('permission:تعديل الفروع');
         Route::post('/update_branch', 'BranchController@update')->name('admin.update_branch.submit')->middleware('permission:تعديل الفروع');
         Route::post('/delete_branch', 'BranchController@delete')->name('admin.delete_branch')->middleware('permission:حذف الفروع');
 
 //Vouchers - السندات
-        Route::get('/voucher', 'VouchersController@index');
+        Route::get('/voucher', 'VouchersController@index')->middleware('permission:التحكم بالسندات');
         Route::post('/create_voucher', 'VouchersController@store')->name('admin.create_voucher.submit')->middleware('permission:اضافة الفروع');
         Route::post('/delete_voucher', 'VouchersController@delete')->name('admin.delete_voucher')->middleware('permission:حذف السندات');
 
         
-        Route::get('/roles', 'RoleController@index');
+        Route::get('/roles', 'RoleController@index')->middleware('permission:التحكم بالصلاحيات');
         Route::get('/show_role/{id}', 'RoleController@show');
         Route::get('/create_role', 'RoleController@create')->middleware('permission:اضافة الصلاحيات');
         Route::post('/create_role', 'RoleController@store')->name('admin.create_role.submit')->middleware('permission:اضافة الصلاحيات');
@@ -216,7 +216,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::group(['middleware' => ['BranchUser']], function () {
 
 
-        Route::get('/stocks', 'StockController@index');
+        Route::get('/stocks', 'StockController@index')->middleware('permission:التحكم بالمخزون');
         Route::get('/show_stock/{id}', 'StockController@show');
         Route::get('/barcode_stock/{id}', 'StockController@barcode');
         Route::get('/barcode_purchas/{id}', 'StockController@purchasbarcode');
@@ -229,11 +229,11 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::get('/filter_stock', 'StockController@filter')->name('admin.filter_stock.submit');
         // Route::get('/filter_stock', 'StockController@index');
 
-        Route::get('/purchass', 'PurchasController@index');
+        Route::get('/purchass', 'PurchasController@index')->middleware('permission:التحكم بقائمة المشتريات');
         Route::get('purchas_datatable', 'PurchasController@datatable')->name('purchas.datatable.data');
         Route::post('/purchass', 'PurchasController@filter')->name('admin.filter_purchas.submit');
         Route::get('/show_purchas/{id}', 'PurchasController@show');
-        Route::get('/create_purchas', 'PurchasController@create');
+        Route::get('/create_purchas', 'PurchasController@create')->middleware('permission:التحكم بفاتورة الشراء');
         Route::post('/create_purchas', 'PurchasController@store')->name('admin.create_purchas.submit');
         Route::get('/edit_purchas/{id}', 'PurchasController@edit');
         Route::post('/edit_purchas', 'PurchasController@update')->name('admin.edit_purchas.submit');
@@ -250,7 +250,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
         Route::post('liveitemSearch', 'PurchasController@liveitemSearch')->name('liveitemSearch');
 
-        Route::get('/cashier/{id?}', 'OrderController@create');
+        Route::get('/cashier/{id?}', 'OrderController@create')->middleware('permission:التحكم بفاتورة المبيعات');
         Route::get('/client_data', 'OrderController@client_data');
         Route::post('/addclientorder', 'OrderController@addClientOrder');
         Route::get('/addcartorder', 'OrderController@addCartOrder');
@@ -261,7 +261,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::get('/alldeletordercart', 'OrderController@alldeletordercart');
         Route::post('/cashier', 'OrderController@store')->name('admin.cashier.submit');
         Route::get('/print_order/{id}', 'OrderController@print_order');
-        Route::get('/orders/{id?}', 'OrderController@index');
+        Route::get('/orders/{id?}', 'OrderController@index')->middleware('permission:التحكم بقائمة الفواتير');
         Route::get('orders_datatable', 'OrderController@datatable')->name('orders.datatable.data');
         Route::post('/orders', 'OrderController@filter')->name('admin.filter_orders.submit');
         Route::get('/show_order/{id}', 'OrderController@show');
@@ -289,7 +289,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::post('/delete_deligate', 'DeligateController@delete')->name('admin.delete_deligate');
 
 
-        Route::get('/inventory', 'InventoryController@index');
+        Route::get('/inventory', 'InventoryController@index')->middleware('permission:التحكم بجرد المخزون');
         Route::post('/create_inventory', 'InventoryController@store')->middleware('permission:اضافة جرد مخزون');
         Route::post('/delete_inventory', 'InventoryController@delete')->name('admin.delete_inventory')->middleware('permission:حذف جرد مخزون');
 //details
@@ -299,16 +299,16 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
 
 
 //        transfer
-        Route::get('/transfer', 'TransferPermissionController@index');
+        Route::get('/transfer', 'TransferPermissionController@index')->middleware('permission:التحكم باذونات التحويل');
         Route::post('/transfer', 'TransferPermissionController@filter')->name('admin.filter_transfer.submit');
-        Route::get('/add-transfer', 'TransferPermissionController@create');
-        Route::post('/add-transfer', 'TransferPermissionController@store')->name('admin.transfer.submit');
+        Route::get('/add-transfer', 'TransferPermissionController@create')->middleware('permission:اضافة اذونات التحويل');
+        Route::post('/add-transfer', 'TransferPermissionController@store')->name('admin.transfer.submit')->middleware('permission:اضافة اذونات التحويل');
         Route::get('/addcarttransfer', 'TransferPermissionController@addCartOrder');
         Route::get('/DeleteTransfer', 'TransferPermissionController@DeleteCart');
         Route::get('/get_transfer_product', 'TransferPermissionController@get_order_product');
         Route::post('/edittransfer', 'TransferPermissionController@editcartorder');
 
-        Route::get('/damageditem', 'DamagedItemController@index');
+        Route::get('/damageditem', 'DamagedItemController@index')->middleware('permission:التحكم بالاصناف التالفة');
         Route::get('/sales_damageditem/{id}', 'DamagedItemController@sales');
         Route::post('/create_damageditem', 'DamagedItemController@store')->name('admin.create_damageditem.submit')->middleware('permission:اضافة الاصناف التالفة');
         Route::get('/edit_damageditem', 'DamagedItemController@edit');
@@ -316,7 +316,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::post('/delete_damageditem', 'DamagedItemController@delete')->name('admin.delete_damageditem')->middleware('permission:حذف الاصناف التالفة');
         Route::get('/filter_damageditem', 'DamagedItemController@filter')->name('admin.filter_damageditem.submit');
 
-        Route::get('/deficiencies', 'DeficienciesController@index');
+        Route::get('/deficiencies', 'DeficienciesController@index')->middleware('permission:التحكم بالنواقص');
         Route::get('/sales_deficiencies/{id}', 'DeficienciesController@sales');
         Route::post('/create_deficiencies', 'DeficienciesController@store')->name('admin.create_deficiencies.submit')->middleware('permission:اضافة النواقص');
         Route::get('/edit_deficiencies', 'DeficienciesController@edit');
@@ -325,12 +325,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
         Route::get('/filter_deficiencies', 'DeficienciesController@filter')->name('admin.filter_deficiencies.submit');
 
 
-        Route::get('/tax-report', 'ReportController@TaxReport');
-        Route::get('/sales-inv-report', 'ReportController@saleinvReport');
+        Route::get('/tax-report', 'ReportController@TaxReport')->middleware('permission:التحكم بالتقرير الضريبي');
+        Route::get('/sales-inv-report', 'ReportController@saleinvReport')->middleware('permission:التحكم بملخص المبيعات');
         Route::get('/print-tax', 'ReportController@PrintTaxReport');
-        Route::get('/sales-report', 'ReportController@SellReport');
+        Route::get('/sales-report', 'ReportController@SellReport')->middleware('permission:التحكم بتقرير المبيعات');
         Route::get('/item-report/{id}', 'ReportController@ItemReport');
-        Route::get('/bonus-report', 'ReportController@BonusReport');
+        Route::get('/bonus-report', 'ReportController@BonusReport')->middleware('permission:التحكم بتقرير الموظفين');
 
 
 

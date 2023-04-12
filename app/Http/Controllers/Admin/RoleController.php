@@ -27,7 +27,7 @@ class RoleController extends Controller
 
   public function create()
   {
-      $query['permissions'] = Permission::orderBy('id','desc')->get();
+      $query['permissions'] = Permission::all();
       return view('admin.role.create', $query);
   }
 
