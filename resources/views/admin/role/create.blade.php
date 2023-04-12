@@ -7,7 +7,7 @@
 @endsection
 
 @section('breadcrumb')
-<h3 class="page-title">المديرين</h1>
+<h3 class="page-title">الصلاحيات</h1>
 @endsection
 
 @section('content')
@@ -36,9 +36,7 @@
                                         <input class="form-control" type="text" value="{{ old('name') }}" name="name" required>
                                     </div>
                                 </div>
-
                                 
-                                <label for="example-text-input" class="col-sm-12 col-form-label">الصلاحيات</label>
                                 @php
                                 $i = 1;
                                 @endphp

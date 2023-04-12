@@ -7,7 +7,7 @@
 @endsection
 
 @section('breadcrumb')
-<h3 class="page-title">المديرين</h1>
+<h3 class="page-title">الصلاحيات</h1>
 @endsection
 
 @section('content')
@@ -40,7 +40,6 @@
                                 @php
                                 $i = 1;
                                 @endphp
-                                <label for="example-text-input" class="col-sm-12 col-form-label">الصلاحيات</label>
                                 <div class="form-group">
                                     @foreach ($permissions as $permission)
                                     @if (str_contains($permission->name, 'التحكم'))
