@@ -112,6 +112,7 @@ class PostController extends Controller
         $data->itm_unit3 = $request->itm_unit3;
         $data->mid = $request->mid;
         $data->sm = $request->sm;
+        $data->stock_limit = $request->stock_limit;
         $data->status = $request->status;
         $data->is_tax = $request->is_tax;
         $data->photo = $photo;
@@ -236,6 +237,7 @@ class PostController extends Controller
             'itm_unit3' => $request->itm_unit3,
             'mid' => $request->mid,
             'sm' => $request->sm,
+            'stock_limit' => $request->stock_limit,
             'status' => $request->status,
             'is_tax' => $request->is_tax,
             'photo' => $photo

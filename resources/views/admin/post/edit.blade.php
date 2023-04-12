@@ -104,6 +104,14 @@
                                         <div class="col-lg-6">
 
                                             <div class="form-group">
+                                                <label for="example-text-input" class="col-sm-12 col-form-label">الحد الادنى للكمية </label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" type="number"
+                                                        value="{{ $data->stock_limit }}" name="stock_limit">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
                                                 <label for="example-text-input" class="col-sm-12 col-form-label">القسم</label>
                                                 <div class="col-sm-8">
                                                     <select class="form-control select2" name="cat_id" required>
