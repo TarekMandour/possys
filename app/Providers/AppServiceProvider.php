@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Setting;
+use App\Models\Notification;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,6 +40,21 @@ class AppServiceProvider extends ServiceProvider
 
         $about = Page::find(1); //about us
         view()->share('Pages', $about);
+
+        view()->composer('*', function($view)
+        {
+
+            if (isset(Auth::user()->type)) {
+                if(Auth::user()->type == 1) {
+                    $notification = Notification::where('bdg',1)->where('branch_id ', Auth::user()->branch_id)->get();
+                    $view->with('notifications', $notification); 
+                } else {
+                    $notification = Notification::where('bdg',1)->get();
+                    $view->with('notifications', $notification); 
+                }
+            }
+               
+        });
 
     }
 }

@@ -16,6 +16,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'auth
     Route::group(['middleware' => ['admin']], function () {
 
         Route::get('/', 'HomeController@index')->name('admin.blank');
+        Route::get('/disable_bdg', 'HomeController@disable_bdg');
 
         Route::get('/admins', 'AdminController@index')->middleware('permission:التحكم بالمديرين');
         Route::get('/show_admin/{id}', 'AdminController@show');

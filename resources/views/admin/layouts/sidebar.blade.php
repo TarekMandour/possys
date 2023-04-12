@@ -21,6 +21,30 @@
             </a>
         </li>
 
+        <!-- notification-->
+        <li class="list-inline-item dropdown notification-list">
+            <a class="nav-link dropdown-toggle arrow-none waves-effect" onclick="disable_bdg()" data-toggle="dropdown" href="#" role="button"
+               aria-haspopup="false" aria-expanded="false">
+                <i class="ion-ios7-bell noti-icon"></i>
+                @if ($notifications->count() > 0)
+                <span class="badge badge-danger noti-icon-badge bdgcount">{{$notifications->count()}}</span>
+                @endif
+            </a>
+            <div class="dropdown-menu dropdown-menu-right dropdown-arrow dropdown-menu-lg">
+                <!-- item-->
+                <div class="dropdown-item noti-title">
+                    <h5>الاشعارات</h5>
+                </div>
+                @foreach ($notifications as $notification)
+                  <!-- item-->
+                    <a href="javascript:void(0);" class="dropdown-item notify-item">
+                        <div class="notify-icon bg-danger"><i class=" mdi mdi-alert-circle-outline"></i></div>
+                        <p class="notify-details"><b>{{$notification->title}}</b><small class="text-muted"> {{$notification->body}}</small></p>
+                    </a>  
+                @endforeach
+
+            </div>
+        </li>
         <!-- User-->
        <li class="list-inline-item dropdown notification-list">
             <a class="nav-link dropdown-toggle arrow-none waves-effect nav-user" data-toggle="dropdown" href="#" role="button"
@@ -62,3 +86,16 @@
 </nav>
 </div>
 <!-- Top Bar End -->
+
+<script>
+    function disable_bdg() { 
+        $.ajax({
+            type: "GET",
+            url: "{{url('admin/disable_bdg')}}", 
+            data: '',
+            success: function (data) {
+                $('.bdgcount').hide();
+            }
+        })
+    }
+</script>
