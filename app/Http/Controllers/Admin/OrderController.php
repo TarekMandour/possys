@@ -18,6 +18,7 @@ use App\Models\OrderStatus;
 use App\Models\Setting;
 use App\Models\Deligate;
 use App\Models\Branch;
+use App\Models\Notification;
 use App\Models\Stock;
 use App\Models\Unit;
 use App\Models\Discounts;
@@ -742,6 +743,15 @@ class OrderController extends Controller
                 }
 
                 OrderCart::truncate();
+
+                $stock_limit = Stock::where('itm_code', $cart_item['itm_code'])->where('branch_id', $request->branch_id)->sum('qty');
+                if ($product->stock_limit >= $stock_limit) {
+                    $notification = new Notification();
+                    $notification->title = "المنتجات";
+                    $notification->body = $product->title . ' - ' . $product->itm_code . ' ، الكمية محدوده في ' . $branch->name;
+                    $notification->bdg = 1;
+                    $notification->save();
+                }
             }
 
             return redirect('admin/print_order/' . $order_orders->order_id);

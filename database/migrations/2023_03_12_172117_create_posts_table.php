@@ -29,6 +29,7 @@ class CreatePostsTable extends Migration {
 			$table->integer('mid')->default(1);
 			$table->integer('sm')->default(1);
 			$table->integer('status')->default(1);
+			$table->integer('stock_limit')->default(2);
 			$table->text('photo')->nullable();
 			$table->timestamps();
 			$table->bigInteger('branch_id')->unsigned()->nullable()->index('posts_branch_id_foreign');
