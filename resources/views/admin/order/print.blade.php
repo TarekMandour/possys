@@ -151,17 +151,15 @@
                             </tr>
                         @endif
                         <tr>
-                            <td class="text-center border-bottom-0" colspan="2"></td>
+                            <td class="text-center border-bottom-0" colspan="2" rowspan="3">{{$qrcode}}</td>
                           <td class="text-end" colspan="2"><strong>الاجمالى قبل الضريبة:</strong></td>
                           <td class="text-end">{{$pro->total_sub}}</td>
                         </tr>
                         <tr>
-                            <td class="text-center border-bottom-0" colspan="2"></td>
                             <td class="text-end" colspan="2"><strong>اجمالى الضريبة:</strong></td>
                             <td class="text-end">{{$pro->total_tax}}</td>
                           </tr>
                         <tr>
-                            <td class="text-center border-bottom-0" colspan="2"></td>
                           <td class="text-end border-bottom-0" colspan="2"><strong>الاجمالى بعد  الضريبة:</strong></td>
                           <td class="text-end border-bottom-0">{{$pro->total_sub  + $pro->total_tax }}</td>
                         </tr>
