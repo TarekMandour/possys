@@ -297,9 +297,10 @@ class AdminController extends Controller
         $data = Post::whereStatus(1)->where('cat_id', $cat_id)->with('attribute')->with('additional')->with(['stock'=>function($query) use($branch_id){
             $query->where('branch_id',$branch_id);
             $query->Where('qty', '!=' , 0);
+            $query->Where('qty', '>' , 0);
             $query->orWhere('qty_mid', '!=' , 0);
             $query->orWhere('qty_sm', '!=' , 0);
-        }])->get();
+        }])->paginate(10);
         $data = PostResource::collection($data);
         return $this->msgdata($request, 200, "نجاح", $data);
     }
@@ -494,7 +495,7 @@ class AdminController extends Controller
     public function clientProfile(Request $request, $phone)
     {
 
-        $user = Client::where('phone', $phone)->get();
+        $user = Client::where('phone','LIKE', "%$phone%")->get();
 
         if ($user->count() == 0) {
             return $this->msgdata($request, 401, "لا يوجد حساب مسجل لهذا الرقم", null);

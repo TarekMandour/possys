@@ -504,8 +504,9 @@ class CartController extends Controller
             }
         }
 
-        $order = $filter->get()->groupBy('order_id');
-        $data = AllOrderResource::collection($order); 
+        $order = $filter->paginate(10)->groupBy('order_id');
+
+        $data = AllOrderResource::collection($order)->response()->getData(true);
         // $data = Order::where('client_id', $user->id)->select('client_id','id','branch','total_sub','total_tax','sdate')->get();
         return $this->msgdata($request, 200, "نجاح",$data);
 

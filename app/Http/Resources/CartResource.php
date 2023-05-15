@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 use App\Models\Attribute;
 use App\Models\PostAttribute;
 use App\Models\PostAdditional;
+use App\Models\Post;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,8 +18,9 @@ class CartResource extends JsonResource
      */
     public function toArray($request)
     {
+        $pro = Post::where('itm_code', $this->itm_code)->get()->first();
 
-        $attributes = 0;
+        $attributes = (object)[];
         foreach (PostAttribute::where('itm_code', $this->itm_code)->get() as $key => $att) {
             if ($att->id == $this->attributes) {
                 $attributes = $att;
@@ -40,6 +42,7 @@ class CartResource extends JsonResource
             'emp_id' => $this->emp_id,
             'itm_code' => $this->itm_code,
             'title_en' => $this->title_en,
+            'photo' => $pro->photo,
             'expiry_date' => $this->expiry_date,
             'qty' => $this->qty,
             'unit_id' => $this->unit_id,

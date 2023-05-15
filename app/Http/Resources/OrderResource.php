@@ -57,14 +57,14 @@ class OrderResource extends JsonResource
             }
 
             $products[] = [
-                'itm_code' => $this->itm_code,
+                'itm_code' => $ord->itm_code,
                 'name' => json_decode($ord->product)->title,
-                'qty' => $this->qty,
-                'price_selling' => $this->price_selling,
-                'is_tax' => $this->is_tax,
-                'unit_id' => $this->unit_id,
-                'unit_title' => $this->unit_title,
-                'expiry_date' => $this->expiry_date,
+                'qty' => $ord->qty,
+                'price_selling' => $ord->price_selling,
+                'is_tax' => $ord->is_tax,
+                'unit_id' => $ord->unit_id,
+                'unit_title' => $ord->unit_title,
+                'expiry_date' => $ord->expiry_date,
                 'attributes' => $attributes,
                 'arr_additional' => $arr_additional
             ];
