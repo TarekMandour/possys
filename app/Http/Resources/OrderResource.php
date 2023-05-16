@@ -38,7 +38,7 @@ class OrderResource extends JsonResource
         $products = array();
         foreach ($orders as $key => $ord) {
 
-            $attributes = 0;
+            $attributes = (object)[];
             foreach (PostAttribute::where('itm_code', $ord->itm_code)->get() as $key => $att) {
                 if ($att->id == $ord->attributes) {
                     $attributes = $att;
