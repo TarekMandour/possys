@@ -301,13 +301,13 @@ class AdminController extends Controller
             $query->orWhere('qty_mid', '!=' , 0);
             $query->orWhere('qty_sm', '!=' , 0);
         }])->paginate(10);
-        $data = PostResource::collection($data);
+        $data = PostResource::collection($data)->response()->getData(true);
         return $this->msgdata($request, 200, "نجاح", $data);
     }
 
     public function ProductDetail(Request $request, $branch_id, $product_id)
     {
-        $product = Post::whereId($product_id)->with('attribute')->with('additional')->with(['stock'=>function($query) use($branch_id){
+        $product = Post::where('id',$product_id)->with('attribute')->with('additional')->with(['stock'=>function($query) use($branch_id){
             $query->where('branch_id',$branch_id);
             $query->Where('qty', '!=' , 0);
             $query->orWhere('qty_mid', '!=' , 0);
@@ -536,8 +536,8 @@ class AdminController extends Controller
                 $data['orders'][] = [
                     'order_id' => $rowo[0]->order_id,
                     'order_type' => $rowo[0]->order_type,
-                    'total_tax' => $rowo[0]->total_tax,
-                    'total_sub' => $rowo[0]->total_sub,
+                    'cash' => $rowo[0]->cash,
+                    'online' => $rowo[0]->online,
                     'date' => $rowo[0]->sdate,
                     'client' => json_decode($rowo[0]->client)->name,
                     'phone' => json_decode($rowo[0]->client)->phone

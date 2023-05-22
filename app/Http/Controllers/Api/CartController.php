@@ -77,11 +77,8 @@ class CartController extends Controller
         } else {
             return $this->msgdata($request, 401, "عفوا المنتج غير متور", $data);
         }
-        
-        $cart = OrderCart::where('emp_id', $user->id)->get();
-        $data = CartResource::collection($cart);
 
-        return $this->msgdata($request, 200, "نجاح", $data);
+        return $this->ShowCart($request);
     }
 
     public function ShowCart(Request $request)
@@ -92,10 +89,94 @@ class CartController extends Controller
             return $this->msgdata($request, 401, "برجاء تسجيل الدخول", []);
         }
 
+        $total_product = 0;
+        $total_discount = 0;
+        $pre_tax = 0 ;
+        $total_sub = 0;
+        $total_tax = 0;
+        $total = 0;
+        $is_discount = 0;
+        $discount_price = 0;
+        $Settings = Setting::find(1);
         $cart = OrderCart::where('emp_id', $user->id)->get();
-        $data = CartResource::collection($cart);
+        $carts = [];
+            foreach($cart as $key=> $cart_item) {
+                $pro = Post::where('itm_code', $cart_item['itm_code'])->get()->first();
 
-        return $this->msgdata($request, 200, "نجاح", $data);
+                $attributes = (object)[];
+                $attPrice = 0;
+                foreach (PostAttribute::where('itm_code', $cart_item['itm_code'])->get() as $key => $att) {
+                    if ($att->id == $cart_item['attributes']) {
+                        $attributes = $att;
+                        $attPrice = $att->attprice;
+                    }
+                }
+
+                $arr_additional = array();
+                $addiPrice = 0;
+                $additional = json_decode($cart_item['additionals']);
+                foreach (PostAdditional::where('itm_code', $cart_item['itm_code'])->get() as $key => $addi) {
+                    foreach ((array) $additional as $key => $additi) {
+                        if ($addi->id == $additi) {
+                            $arr_additional[] = $addi;
+                            $addiPrice += $addi->addprice;
+                        }
+                    }
+                }
+
+                $pro_price_before_tax = (($cart_item['price_selling'] + $attPrice) * $cart_item['qty']) + $addiPrice ;
+                $pro_tax = 0 ;
+                
+                $total_product = round($total_product + $pro_price_before_tax, 2);
+                if ($cart_item['is_tax'] == 1) {
+                    $pro_tax = ((($cart_item['price_selling'] + $attPrice) * $cart_item['qty']) + $addiPrice) * ($Settings->tax / 100);
+                    $pre_price = $pro_price_before_tax ;
+                    $pre_discount = $pre_price * ( $cart_item['discount'] / 100);
+                    $total_tax = round($total_tax + ($pre_price - $pre_discount) * ($Settings->tax / 100), 2);
+                }
+                
+                $is_discount += $cart_item['is_discount'];
+                $discount_title = $cart_item['discount_title'];
+                $pro_price_after_tax = $pro_price_before_tax + $pro_tax ;
+
+                $carts['products'][] = [
+                    'id' => $cart_item['id'],
+                    'emp_id' => $user->id,
+                    'itm_code' => $cart_item['itm_code'],
+                    'title_en' => $cart_item['title_en'],
+                    'photo' => $pro->photo,
+                    'expiry_date' => $cart_item['expiry_date'],
+                    'qty' => $cart_item['qty'],
+                    'unit_id' => $cart_item['unit_id'],
+                    'unit_title' => $cart_item['unit_title'],
+                    'is_tax' => $cart_item['is_tax'],
+                    'price_selling' => $cart_item['price_selling'],
+                    'discount' => $cart_item['discount'],
+                    'discount_title' => $cart_item['discount_title'],
+                    'discount_price' => $cart_item['discount_price'],
+                    'is_discount' => $cart_item['is_discount'],
+                    'attributes' => $attributes,
+                    'additionals' => $arr_additional,
+                    'price_before_tax' => $pro_price_before_tax,
+                    'tax' => $pro_tax,
+                    'price_after_tax' => $pro_price_after_tax
+                ];
+            };
+
+            $total_discount = round(( $cart_item['discount'] / 100) * $total_product, 2);
+
+            $carts['totals'][] = [
+                'total_product_price' => $total_product,
+                'discount_title' => $discount_title,
+                'total_discount' => $total_discount,
+                'total_sub' => $total_product - $total_discount,
+                'total_tax' => $total_tax,
+                'totals' => ($total_product - $total_discount) + $total_tax,
+            ];
+            
+        // $data = CartResource::collection($cart);
+
+        return $this->msgdata($request, 200, "نجاح", $carts);
     }
 
     public function DeleteCart(Request $request, $id)
@@ -107,9 +188,7 @@ class CartController extends Controller
         }
         $data = OrderCart::where('id', $id)->delete();
 
-        $cart = OrderCart::where('emp_id', $user->id)->get();
-        $data = CartResource::collection($cart);
-        return $this->msgdata($request, 200, "نجاح", $data);
+        return $this->ShowCart($request);
     }
 
     public function DeleteAllCart(Request $request)
@@ -121,9 +200,7 @@ class CartController extends Controller
         }
         $data = OrderCart::where('emp_id', $user->id)->delete();
 
-        $cart = OrderCart::where('emp_id', $user->id)->get();
-        $data = CartResource::collection($cart);
-        return $this->msgdata($request, 200, "نجاح", $data);
+        return $this->ShowCart($request);
     }
 
     public function EditCart(Request $request)
@@ -177,10 +254,7 @@ class CartController extends Controller
             return $this->msgdata($request, 401, "عفوا المنتج غير متور", $data);
         }
         
-        $cart = OrderCart::where('emp_id', $user->id)->get();
-        $data = CartResource::collection($cart);
-
-        return $this->msgdata($request, 200, "نجاح", $data);
+        return $this->ShowCart($request);
     }
 
     public function AddDiscount(Request $request)
@@ -221,10 +295,7 @@ class CartController extends Controller
             }
         }
         
-        $cart = OrderCart::where('emp_id', $user->id)->get();
-        $data = CartResource::collection($cart);
-
-        return $this->msgdata($request, 200, "نجاح", $data);
+        return $this->ShowCart($request);
     }
 
 
@@ -262,6 +333,7 @@ class CartController extends Controller
 
             $total_product = 0;
             $total_discount = 0;
+            $pre_tax = 0 ;
             $total_sub = 0;
             $total_tax = 0;
             $total = 0;
@@ -270,31 +342,43 @@ class CartController extends Controller
 
             foreach ($cart as $yy => $cart_item) {
                 $product = Post::where('itm_code', $cart_item['itm_code'])->get()->first();
-                
 
-                $total_product = round($total_product + ($cart_item['price_selling'] * $cart_item['qty']), 2);
-                if ($cart_item['is_tax'] == 1) {
-                    $pre_price = $cart_item['price_selling'] * $cart_item['qty'];
-                    $pre_discount = ($cart_item['price_selling'] * $cart_item['qty']) * ($cart_item['discount'] / 100);
-                    $total_tax = round($total_tax + ($pre_price - $pre_discount) * ($Settings->tax / 100), 2);
-                }
-
-                foreach (PostAttribute::where('itm_code', $cart_item['itm_code'])->orderBy('id','asc')->get() as $key => $att) {
+                $attributes = (object)[];
+                $attPrice = 0;
+                foreach (PostAttribute::where('itm_code', $cart_item['itm_code'])->get() as $key => $att) {
                     if ($att->id == $cart_item['attributes']) {
-                        $total_product = $total_product + $att->attprice;
+                        $attributes = $att;
+                        $attPrice = $att->attprice;
                     }
                 }
 
-
-
+                $arr_additional = array();
+                $addiPrice = 0;
                 $additional = json_decode($cart_item['additionals']);
                 foreach (PostAdditional::where('itm_code', $cart_item['itm_code'])->get() as $key => $addi) {
                     foreach ((array) $additional as $key => $additi) {
                         if ($addi->id == $additi) {
-                            $total_product += $addi->addprice;
+                            $arr_additional[] = $addi;
+                            $addiPrice += $addi->addprice;
                         }
                     }
                 }
+
+                $pro_price_before_tax = (($cart_item['price_selling'] + $attPrice) * $cart_item['qty']) + $addiPrice ;
+                $pro_tax = 0 ;
+                
+                $total_product = round($total_product + $pro_price_before_tax, 2);
+                if ($cart_item['is_tax'] == 1) {
+                    $pro_tax = ((($cart_item['price_selling'] + $attPrice) * $cart_item['qty']) + $addiPrice) * ($Settings->tax / 100);
+                    $pre_price = $pro_price_before_tax ;
+                    $pre_discount = $pre_price * ( $cart_item['discount'] / 100);
+                    $total_tax = round($total_tax + ($pre_price - $pre_discount) * ($Settings->tax / 100), 2);
+                }
+                
+                $is_discount += $cart_item['is_discount'];
+                $discount_title = $cart_item['discount_title'];
+                $pro_price_after_tax = $pro_price_before_tax + $pro_tax ;
+
 
                 $total_discount = ($cart_item['discount'] / 100) * $total_product;
 
@@ -469,7 +553,7 @@ class CartController extends Controller
         }
 
         $query['branches'] = Branch::get();
-        $filter = DB::table('orders')->select(DB::raw('branch,order_type,total_tax,total_sub,order_id,sdate,branch_id,client,client_id,created_at'))->orderBy('id', 'desc');
+        $filter = DB::table('orders')->select(DB::raw('order_id'))->distinct('order_id')->orderBy('id', 'desc');
         if ($request->order_id) {
             $filter->where('order_id', $request->order_id);
         }
@@ -504,8 +588,8 @@ class CartController extends Controller
             }
         }
 
-        $order = $filter->paginate(10)->groupBy('order_id');
-
+        $order = $filter->paginate(10);
+        // dd($order);
         $data = AllOrderResource::collection($order)->response()->getData(true);
         // $data = Order::where('client_id', $user->id)->select('client_id','id','branch','total_sub','total_tax','sdate')->get();
         return $this->msgdata($request, 200, "نجاح",$data);

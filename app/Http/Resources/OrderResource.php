@@ -22,13 +22,13 @@ class OrderResource extends JsonResource
 
         $orders = Order::where('order_id', $this->order_id)->get();
 
-        $query['setting'] = Setting::find(1);
+        $Settings = Setting::find(1);
 
         $inv_total = $this->total_sub + $this->total_tax;
 
         $generatedString = [
-            $this->toString($query['setting']->title, '1'),
-            $this->toString($query['setting']->tax_num, '2'),
+            $this->toString($Settings->title, '1'),
+            $this->toString($Settings->tax_num, '2'),
             $this->toString($this->created_at, '3'),
             $this->toString($inv_total, '4'),
             $this->toString($this->total_tax, '5'),
@@ -36,25 +36,53 @@ class OrderResource extends JsonResource
         ];
         
         $products = array();
+
+        $total_product = 0;
+        $total_tax = 0;
+        $total_discount = 0;
+
+        $total_sub = 0;
+        $total_tax = 0;
+        $total = 0;
+        $is_discount = 0;
+        $discount_price = 0;
+
         foreach ($orders as $key => $ord) {
 
             $attributes = (object)[];
+            $attPrice = 0;
             foreach (PostAttribute::where('itm_code', $ord->itm_code)->get() as $key => $att) {
                 if ($att->id == $ord->attributes) {
                     $attributes = $att;
+                    $attPrice = $att->attprice;
                 }
             }
 
 
             $arr_additional = array();
+            $addiPrice = 0;
             $additional = json_decode($ord->additionals);
             foreach (PostAdditional::where('itm_code', $ord->itm_code)->get() as $key => $addi) {
                 foreach ((array) $additional as $key => $additi) {
                     if ($addi->id == $additi) {
                         $arr_additional[] = $addi;
+                        $addiPrice += $addi->addprice;
                     }
                 }
             }
+
+            $pro_price_before_tax = (($ord->price_selling + $attPrice) * $ord->qty) + $addiPrice ;
+            $pro_tax = 0 ;
+
+            $total_product = round($total_product + $pro_price_before_tax, 2);
+                if ($ord->is_tax == 1) {
+                    $pro_tax = ((($ord->price_selling + $attPrice) * $ord->qty) + $addiPrice) * ($Settings->tax / 100);
+                    $pre_price = $pro_price_before_tax ;
+                    $pre_discount = $pre_price * ( $ord->discount / 100);
+                    $total_tax = round($total_tax + ($pre_price - $pre_discount) * ($Settings->tax / 100), 2);
+                }
+                
+            $pro_price_after_tax = $pro_price_before_tax + $pro_tax ;
 
             $products[] = [
                 'itm_code' => $ord->itm_code,
@@ -66,10 +94,14 @@ class OrderResource extends JsonResource
                 'unit_title' => $ord->unit_title,
                 'expiry_date' => $ord->expiry_date,
                 'attributes' => $attributes,
-                'arr_additional' => $arr_additional
+                'arr_additional' => $arr_additional,
+                'price_before_tax' => $pro_price_before_tax,
+                'tax' => $pro_tax,
+                'price_after_tax' => $pro_price_after_tax
             ];
-        }
+        }     
         
+        $total_discount = round(( $ord->discount / 100) * $total_product, 2);
 
         if($this->order_type == 1) {
             $order_type = 'مشتريات';
@@ -84,6 +116,8 @@ class OrderResource extends JsonResource
             'order_id' => $this->order_id,
             'order_type' => $order_type ,
             'order_return' => $this->order_return,
+            'total_product' => $total_product,
+            'total_discount' => $total_discount,
             'total_sub' => $this->total_sub,
             'total_tax' => $this->total_tax,
             'cash' => $this->cash,
