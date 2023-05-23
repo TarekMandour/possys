@@ -100,6 +100,7 @@ class CartController extends Controller
         $Settings = Setting::find(1);
         $cart = OrderCart::where('emp_id', $user->id)->get();
         $carts = [];
+        $cart_item_discount = 0;
             foreach($cart as $key=> $cart_item) {
                 $pro = Post::where('itm_code', $cart_item['itm_code'])->get()->first();
 
@@ -137,7 +138,7 @@ class CartController extends Controller
                 
                 $is_discount += $cart_item['is_discount'];
                 $discount_title = $cart_item['discount_title'];
-                $cart_item_discount = $cart_item['discount'];
+                
                 $pro_price_after_tax = $pro_price_before_tax + $pro_tax ;
 
                 $carts['products'][] = [
