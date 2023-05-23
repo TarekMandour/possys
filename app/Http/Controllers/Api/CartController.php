@@ -101,6 +101,7 @@ class CartController extends Controller
         $cart = OrderCart::where('emp_id', $user->id)->get();
         $carts = [];
         $cart_item_discount = 0;
+        $discount_title = Null;
             foreach($cart as $key=> $cart_item) {
                 $pro = Post::where('itm_code', $cart_item['itm_code'])->get()->first();
 
