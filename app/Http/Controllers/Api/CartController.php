@@ -553,7 +553,7 @@ class CartController extends Controller
         }
 
         $query['branches'] = Branch::get();
-        $filter = DB::table('orders')->select(DB::raw('order_id'))->distinct('order_id')->orderBy('desc');
+        $filter = DB::table('orders')->select(DB::raw('order_id'))->distinct('order_id')->orderBy('order_id', 'desc');
         if ($request->order_id) {
             $filter->where('order_id', $request->order_id);
         }
