@@ -341,14 +341,14 @@ class AdminController extends Controller
                     $query->orWhere('qty_mid', '!=' , 0);
                     $query->orWhere('qty_sm', '!=' , 0);
                 }])
-                ->get();
+                ->paginate(10);
         } else {
             $data = Category::where('title', 'like', '%' . $request->key . '%')
                 ->orWhere('title_en', 'like', '%' . $request->key . '%')
                 ->get();
         }
 
-        $data = PostResource::collection($data);
+        $data = PostResource::collection($data)->response()->getData(true);
         return $this->msgdata($request, 200, "نجاح", $data);
     }
 
@@ -359,8 +359,8 @@ class AdminController extends Controller
             $query->Where('qty', '!=' , 0);
             $query->orWhere('qty_mid', '!=' , 0);
             $query->orWhere('qty_sm', '!=' , 0);
-        }])->get();
-        $data = PostResource::collection($product);
+        }])->paginate(10);
+        $data = PostResource::collection($product)->response()->getData(true);
 
         return $this->msgdata($request, 200, "نجاح", $data);
     }

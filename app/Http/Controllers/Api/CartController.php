@@ -140,7 +140,8 @@ class CartController extends Controller
                 
                 $is_discount += $cart_item['is_discount'];
                 $discount_title = $cart_item['discount_title'];
-                
+                $cart_item_discount = $cart_item['discount'];
+
                 $pro_price_after_tax = $pro_price_before_tax + $pro_tax ;
 
                 $carts['products'][] = [
