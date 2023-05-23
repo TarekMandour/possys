@@ -102,6 +102,7 @@ class CartController extends Controller
         $carts = [];
         $cart_item_discount = 0;
         $discount_title = Null;
+        $carts['products'] = [];
             foreach($cart as $key=> $cart_item) {
                 $pro = Post::where('itm_code', $cart_item['itm_code'])->get()->first();
 
