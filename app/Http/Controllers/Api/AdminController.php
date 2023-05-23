@@ -265,6 +265,7 @@ class AdminController extends Controller
         $data->logo2 = url('public/uploads/posts/' . $data->logo2);
         $data->fav = url('public/uploads/posts/' . $data->fav);
         $data->breadcrumb = url('public/uploads/posts/' . $data->breadcrumb);
+        $data->flag = 'pharma';
 
         return $this->msgdata($request, 200, "نجاح", $data);
 
