@@ -296,7 +296,7 @@ class AdminController extends Controller
     {
         $stock = Stock::where('branch_id', $branch_id)->limit(999)->pluck('itm_code')->toArray();
         $data = Post::whereStatus(1)->where('cat_id', $cat_id)->with('attribute')->with('additional')->with(['stock'=>function($query) use($branch_id){
-
+            $query->where('branch_id',$branch_id);
             $query->Where('qty', '!=' , 0);
             $query->Where('qty', '>' , 0);
             $query->orWhere('qty_mid', '!=' , 0);
