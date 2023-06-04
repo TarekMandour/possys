@@ -319,8 +319,6 @@ class AdminController extends Controller
             $query->orWhere('qty_sm', '!=' , 0);
         }])->whereHas('stock', function ($query) use($branch_id) {
             $query->where('branch_id',$branch_id);
-            $query->Where('qty', '!=' , 0);
-            $query->Where('qty', '>' , 0);
         })->get();
         $data = PostResource::collection($product);
         return $this->msgdata($request, 200, "نجاح", $data);
