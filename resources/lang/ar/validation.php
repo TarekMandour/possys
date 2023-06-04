@@ -148,7 +148,7 @@ return [
 
     'attributes' => [
         'name' => 'الاسم ',
-        'username' => 'اسم المُستخدم',
+        'username' => 'رقم الجوال',
         'email' => 'البريد الالكتروني',
         'first_name' => 'الاسم الأول',
         'last_name' => 'اسم العائلة',

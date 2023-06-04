@@ -18,6 +18,7 @@ use App\Models\Order;
 use App\Models\Post;
 use App\Models\Setting;
 use App\Models\Stock;
+use App\Models\Unit;
 use App\Models\OrderCart;
 use App\Models\Discounts;
 use Illuminate\Http\Request;
@@ -59,6 +60,14 @@ class CartController extends Controller
         }
 
         if ($product && $stock) {
+            
+            $stock = Stock::orderBy('id', 'desc')->where('itm_code', $request->itm_code)->where('branch_id', $request->branch_id)->first();
+            if ($stock->qty == 1) {
+                $cart = OrderCart::where('emp_id', $user->id)->where('itm_code', $request->itm_code)->get();
+                if ($cart->count() > 0) {
+                    return $this->msgdata($request, 401, "عفوا المنتج غير متور", NULL);
+                }
+            }
 
             $data = new OrderCart;
             $data->emp_id = $user->id;
@@ -229,15 +238,32 @@ class CartController extends Controller
         }
 
 
-        $product = Post::select('title_en', 'itm_unit1', 'is_tax')->orderBy('id', 'desc')->with('Unit1')->where('itm_code', $request->itm_code)->first();
+        $product = Post::select('title_en', 'itm_unit1','itm_unit2','itm_unit3','mid','sm', 'is_tax')->orderBy('id', 'desc')->with('Unit1')->where('itm_code', $request->itm_code)->first();
         if ($request->order_type == 1) {
             $stock = Stock::orderBy('id', 'desc')->where('itm_code', $request->itm_code)->where('branch_id', $request->branch_id)->first();
         } else {
             $stock = Stock::orderBy('id', 'desc')->where('itm_code', $request->itm_code)->where('branch_id', $request->branch_id)->where('qty', '>', 0)->first();
             if(!$stock) {
                 return $this->msgdata($request, 401, "عفوا لا يوجد كميه", NULL); 
+            } else if(($request->qty) > $stock->qty) {
+                return $this->msgdata($request, 401, "عفوا لا يوجد كميه", NULL); 
             }
         }
+
+        $price = $stock->price_selling;
+
+        if ($request->unit_id) {
+            $unit = Unit::find($request->unit_id);
+
+            if ($product->itm_unit1 == $unit->num) {
+                $price = $stock->price_selling;
+            } elseif ($product->itm_unit2 == $unit->num) {
+                $price = $stock->price_selling / $product->mid;
+            } elseif ($product->itm_unit3 == $unit->num) {
+                $price = $stock->price_selling / ($product->sm * $product->mid);
+            }
+        }
+        
 
         if ($product && $stock) {
 
@@ -250,7 +276,7 @@ class CartController extends Controller
             $data->unit_id = $product->itm_unit1;
             $data->unit_title = $product->Unit1->title;
             $data->is_tax = $product->is_tax;
-            $data->price_selling = round($stock->price_selling, 2);
+            $data->price_selling = round($price, 2);
             $data->attributes = $request->attribute;
             $data->additionals = json_encode($request->additionals);
 
