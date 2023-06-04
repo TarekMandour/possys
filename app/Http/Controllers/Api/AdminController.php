@@ -294,16 +294,16 @@ class AdminController extends Controller
 
     public function ProductsByCatID(Request $request, $branch_id, $cat_id)
     {
-        $stock = Stock::where('branch_id', $branch_id)->limit(999)->pluck('itm_code')->toArray();
-        $data = Post::whereStatus(1)->where('cat_id', $cat_id)->with('attribute')->with('additional')->with(['stock'=>function($query) use($branch_id){
-            $query->where('branch_id',$branch_id);
-            $query->Where('qty', '!=' , 0);
-            $query->Where('qty', '>' , 0);
-            $query->orWhere('qty_mid', '!=' , 0);
-            $query->orWhere('qty_sm', '!=' , 0);
-        }])->paginate(10);
-        $data = PostResource::collection($data)->response()->getData(true);
-        return $this->msgdata($request, 200, "نجاح", $data);
+        // $stock = Stock::where('branch_id', $branch_id)->limit(999)->pluck('itm_code')->toArray();
+        // $data = Post::whereStatus(1)->where('cat_id', $cat_id)->with('attribute')->with('additional')->with(['stock'=>function($query) use($branch_id){
+        //     $query->where('branch_id',$branch_id);
+        //     $query->Where('qty', '!=' , 0);
+        //     $query->Where('qty', '>' , 0);
+        //     $query->orWhere('qty_mid', '!=' , 0);
+        //     $query->orWhere('qty_sm', '!=' , 0);
+        // }])->paginate(10);
+        // $data = PostResource::collection($data)->response()->getData(true);
+        // return $this->msgdata($request, 200, "نجاح", $data);
     }
 
     public function ProductDetail(Request $request, $branch_id, $product_id)
