@@ -359,6 +359,8 @@ class AdminController extends Controller
                     $query->orWhere('qty_sm', '!=' , 0);
                 }])
                 ->paginate(10);
+
+                dd($branch_id);
         } else {
             $data = Category::where('title', 'like', '%' . $request->key . '%')
                 ->orWhere('title_en', 'like', '%' . $request->key . '%')
