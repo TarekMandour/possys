@@ -28,6 +28,7 @@ class PostResource extends JsonResource
                 $arr_attri[] = $arr_attribute;
             }
         }
+        dd($this->Unit1);
         return [
             'id' => $this->id,
             'itm_code' => $this->itm_code,
