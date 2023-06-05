@@ -338,7 +338,7 @@ class AdminController extends Controller
         
         if ($request->type == "product") {
             $data = Stock::where('branch_id',$branch_id)
-            ->whereHas('Product', function (Builder $query) {
+            ->whereHas('Product', function ($query) {
                 $query->where('title', 'like', '%' . $request->key . '%')
                 ->orWhere('title_en', 'like', '%' . $request->key . '%')
                 ->orWhere('content','like','%' . $request->key . '%');
