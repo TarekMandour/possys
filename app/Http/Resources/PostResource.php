@@ -32,11 +32,11 @@ class PostResource extends JsonResource
         $units[] = $this->Unit1;
 
         if ($this->itm_unit1 != $this->itm_unit2) {
-            $units[] = $this->itm_unit2;
+            $units[] = $this->Unit2;
         }
 
         if ($this->itm_unit2 != $this->itm_unit3) {
-            $units[] = $this->itm_unit3;
+            $units[] = $this->Unit3;
         }
 
         return [
