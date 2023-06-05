@@ -338,11 +338,11 @@ class AdminController extends Controller
         
         if ($request->type == "product") {
             $data = Stock::where('branch_id',$branch_id)
-            ->with('Product', function ($query) use($request) {
+            ->whereHas('Product', function ($query) use($request) {
                 $query->where('title', 'like', '%' . $request->key . '%')
                 ->orWhere('title_en', 'like', '%' . $request->key . '%')
                 ->orWhere('content','like','%' . $request->key . '%');
-               })->paginate(10);
+               })->with('Product')->paginate(10);
 
             // $data = Post::where('title', 'like', '%' . $request->key . '%')
             //     ->orWhere('title_en', 'like', '%' . $request->key . '%')
