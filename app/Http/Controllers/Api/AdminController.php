@@ -342,7 +342,6 @@ class AdminController extends Controller
                 ->orWhere('content','like','%' . $request->key . '%')
                 ->whereHas('stock', function ($query) use($branch_id) {
                     $query->where('branch_id',$branch_id);
-                    $query->Where('qty', '!=' , 0);
                 })
                 ->paginate(10);
         } else {
