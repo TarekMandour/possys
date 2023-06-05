@@ -28,7 +28,17 @@ class PostResource extends JsonResource
                 $arr_attri[] = $arr_attribute;
             }
         }
-        dd($this->Unit1);
+        
+        $units[] = $this->Unit1;
+
+        if ($this->itm_unit1 != $this->itm_unit2) {
+            $units[] = $this->itm_unit2;
+        }
+
+        if ($this->itm_unit2 != $this->itm_unit3) {
+            $units[] = $this->itm_unit3;
+        }
+
         return [
             'id' => $this->id,
             'itm_code' => $this->itm_code,
@@ -45,6 +55,7 @@ class PostResource extends JsonResource
             'sm' => $this->sm,
             'status' => $this->status,
             'created_at'  => $this->created_at,
+            'units' => $units,
             'stock' => $this->stock,
             'additional' => $this->addi,
             'attribute' => $arr_attri,
