@@ -337,18 +337,33 @@ class AdminController extends Controller
         $branch_id = $request->branch_id;
         
         if ($request->type == "product") {
-            $data = Post::where('title', 'like', '%' . $request->key . '%')
-                ->whereHas('stock', function ($query) use($branch_id) {
-                    $query->where('branch_id',$branch_id);
-                })
-                ->with(['stock'=>function($query) use($branch_id){
-                    $query->where('branch_id',$branch_id);
-                    $query->Where('qty', '!=' , 0);
-                    $query->orWhere('qty_mid', '!=' , 0);
-                    $query->orWhere('qty_sm', '!=' , 0);
-                }])
+            $data = Post::query();
+            if ($request->key) {
+                $data->where('title', 'like', '%' . $request->key . '%')
+                ->orWhere('title_en', 'like', '%' . $request->key . '%')
+                ->orWhere('content','like','%' . $request->key . '%');
+            }
+
+            $data->with(['stock'=>function($query) use($branch_id){
+                $query->where('branch_id',$branch_id);
+                $query->Where('qty', '!=' , 0);
+                $query->orWhere('qty_mid', '!=' , 0);
+                $query->orWhere('qty_sm', '!=' , 0);
+            }]);
+            // $data = Post::where('title', 'like', '%' . $request->key . '%')
+            //     ->orWhere('title_en', 'like', '%' . $request->key . '%')
+            //     ->orWhere('content','like','%' . $request->key . '%')
+            //     ->whereHas('stock', function ($query) use($branch_id) {
+            //         $query->where('branch_id',$branch_id);
+            //     })
+                // ->with(['stock'=>function($query) use($branch_id){
+                //     $query->where('branch_id',$branch_id);
+                //     $query->Where('qty', '!=' , 0);
+                //     $query->orWhere('qty_mid', '!=' , 0);
+                //     $query->orWhere('qty_sm', '!=' , 0);
+                // }])
                 
-                ->paginate(10);
+                $data->paginate(10);
         } else {
             $data = Category::where('title', 'like', '%' . $request->key . '%')
                 ->orWhere('title_en', 'like', '%' . $request->key . '%')
