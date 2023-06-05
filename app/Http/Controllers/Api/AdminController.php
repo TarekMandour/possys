@@ -338,7 +338,9 @@ class AdminController extends Controller
         
         if ($request->type == "product") {
             $data = Post::where('title', 'like', '%' . $request->key . '%')
-                ->whereHas('stock', function ($query) use($branch_id) {
+                ->orWhere('title_en', 'like', '%' . $request->key . '%')
+                ->orWhere('content','like','%' . $request->key . '%')
+                ->whereHas('stocks', function ($query) use($branch_id) {
                     $query->where('branch_id',$branch_id);
                 })
                 ->with(['stock'=>function($query) use($branch_id){
@@ -347,6 +349,7 @@ class AdminController extends Controller
                     $query->orWhere('qty_mid', '!=' , 0);
                     $query->orWhere('qty_sm', '!=' , 0);
                 }])
+                
                 ->paginate(10);
         } else {
             $data = Category::where('title', 'like', '%' . $request->key . '%')
