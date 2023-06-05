@@ -337,7 +337,6 @@ class AdminController extends Controller
         $branch_id = $request->branch_id;
         
         if ($request->type == "product") {
-            dd($branch_id);
             $data = Post::where('title', 'like', '%' . $request->key . '%')
                 ->orWhere('title_en', 'like', '%' . $request->key . '%')
                 ->orWhere('content','like','%' . $request->key . '%')
@@ -345,7 +344,7 @@ class AdminController extends Controller
                     $query->where('branch_id',$branch_id);
                 })
                 ->with(['stock'=>function($query) use($branch_id){
-                    $query->where('branch_id',);
+                    $query->where('branch_id',$branch_id);
                     $query->Where('qty', '!=' , 0);
                     $query->orWhere('qty_mid', '!=' , 0);
                     $query->orWhere('qty_sm', '!=' , 0);
@@ -357,7 +356,7 @@ class AdminController extends Controller
                 ->orWhere('title_en', 'like', '%' . $request->key . '%')
                 ->get();
         }
-
+dd($data);
         $data = PostResource::collection($data)->response()->getData(true);
         return $this->msgdata($request, 200, "نجاح", $data);
     }
