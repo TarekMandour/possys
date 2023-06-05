@@ -348,6 +348,13 @@ class AdminController extends Controller
             $data = Post::where('title', 'like', '%' . $request->key . '%')
                 ->orWhere('title_en', 'like', '%' . $request->key . '%')
                 ->orWhere('content','like','%' . $request->key . '%')
+                ->with(['stock'=>function($query) use($branch_id){
+                    $query->where('branch_id',$branch_id);
+                    $query->Where('qty', '!=' , 0);
+                    $query->Where('qty', '>' , 0);
+                    $query->orWhere('qty_mid', '!=' , 0);
+                    $query->orWhere('qty_sm', '!=' , 0);
+                }])
                 ->paginate(10);
         } else {
             $data = Category::where('title', 'like', '%' . $request->key . '%')
