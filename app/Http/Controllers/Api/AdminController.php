@@ -338,8 +338,6 @@ class AdminController extends Controller
         
         if ($request->type == "product") {
             $data = Post::where('title', 'like', '%' . $request->key . '%')
-                ->orWhere('title_en', 'like', '%' . $request->key . '%')
-                ->orWhere('content','like','%' . $request->key . '%')
                 ->whereHas('stock', function ($query) use($branch_id) {
                     $query->where('branch_id',$branch_id);
                 })
