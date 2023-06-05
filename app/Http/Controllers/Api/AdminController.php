@@ -327,6 +327,7 @@ class AdminController extends Controller
         $rules = [
             'key' => 'required|string',
             'type' => 'required|in:product,category',
+            'branch_id' => 'required',
 
         ];
         $validator = Validator::make($request->all(), $rules);
@@ -347,22 +348,13 @@ class AdminController extends Controller
             $data = Post::where('title', 'like', '%' . $request->key . '%')
                 ->orWhere('title_en', 'like', '%' . $request->key . '%')
                 ->orWhere('content','like','%' . $request->key . '%')
-                ->whereHas('Stock', function ($query) use($branch_id) {
-                    $query->where('branch_id',$branch_id);
-                })
-                ->with(['Stock'=>function($que) use($branch_id){
-                    $que->where('branch_id',$branch_id);
-                    $que->Where('qty', '!=' , 0);
-                    $que->orWhere('qty_mid', '!=' , 0);
-                    $que->orWhere('qty_sm', '!=' , 0);
-                }])
                 ->paginate(10);
         } else {
             $data = Category::where('title', 'like', '%' . $request->key . '%')
                 ->orWhere('title_en', 'like', '%' . $request->key . '%')
                 ->get();
         }
-dd($data);
+
         $data = PostResource::collection($data)->response()->getData(true);
         return $this->msgdata($request, 200, "نجاح", $data);
     }

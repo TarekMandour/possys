@@ -15,4 +15,8 @@ class Stock extends Model
     {
         return $this->hasOne('App\Models\Post', 'itm_code', 'itm_code');
     }
+
+    public function post(){
+        return $this->belongsTo(Post::class);
+    }
 }
