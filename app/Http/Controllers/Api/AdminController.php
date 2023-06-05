@@ -337,7 +337,7 @@ class AdminController extends Controller
         $branch_id = $request->branch_id;
         
         if ($request->type == "product") {
-            $data = Post::query();
+            $data = Post::orderBy('id', 'desc');
             if ($request->key) {
                 $data->where('title', 'like', '%' . $request->key . '%')
                 ->orWhere('title_en', 'like', '%' . $request->key . '%')
