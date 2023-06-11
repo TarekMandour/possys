@@ -369,13 +369,15 @@ class AdminController extends Controller
 
     public function SearchItemCode(Request $request, $branch_id, $item_code)
     {
-        $product = Post::where('itm_code', $item_code)->with('attribute')->with('additional')->with(['stock'=>function($query) use($branch_id){
+        $product = Post::where('itm_code', $item_code)->with('attribute')->with('additional')
+        ->whereHas('stock', function ($query) use($branch_id) {
+            $query->where('branch_id',$branch_id);
+        })
+        ->with(['stock'=>function($query) use($branch_id){
             $query->where('branch_id',$branch_id);
             $query->Where('qty', '!=' , 0);
-            $query->orWhere('qty_mid', '!=' , 0);
-            $query->orWhere('qty_sm', '!=' , 0);
-        }])->paginate(10);
-        $data = PostResource::collection($product)->response()->getData(true);
+        }])->get();
+        $data = PostResource::collection($product);
 
         return $this->msgdata($request, 200, "نجاح", $data);
     }
