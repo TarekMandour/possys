@@ -5,7 +5,7 @@
     <div class="topbar-left">
         <div class="">
             <!--<a href="index" class="logo text-center">Admiria</a>-->
-            <a href="index" class="logo"><img src="{{asset('public/uploads/posts')}}/{{$Settings->logo1}}" height="50"
+            <a href="{{url('/')}}" class="logo"><img src="{{asset('public/uploads/posts')}}/{{$Settings->logo1}}" height="50"
                                               alt="{{$Settings->title}}"></a>
         </div>
     </div>

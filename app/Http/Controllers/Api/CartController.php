@@ -242,7 +242,12 @@ class CartController extends Controller
         if ($request->order_type == 1) {
             $stock = Stock::orderBy('id', 'desc')->where('itm_code', $request->itm_code)->where('branch_id', $request->branch_id)->first();
         } else {
-            $stock = Stock::orderBy('id', 'desc')->where('itm_code', $request->itm_code)->where('branch_id', $request->branch_id)->where('qty', '>', 0)->first();
+            if ($request->expiry_date) {
+                $stock = Stock::where('itm_code', $request->itm_code)->where('branch_id', $request->branch_id)->where('expiry_date', $request->expiry_date)->where('qty', '>', 0)->get()->first();
+            } else {
+                $stock = Stock::orderBy('id', 'desc')->where('itm_code', $request->itm_code)->where('branch_id', $request->branch_id)->where('qty', '>', 0)->first();
+            }
+            // $stock = Stock::orderBy('id', 'desc')->where('itm_code', $request->itm_code)->where('branch_id', $request->branch_id)->where('qty', '>', 0)->first();
             if(!$stock) {
                 return $this->msgdata($request, 401, "عفوا لا يوجد كميه", NULL); 
             } else if(($request->qty) > $stock->qty) {
