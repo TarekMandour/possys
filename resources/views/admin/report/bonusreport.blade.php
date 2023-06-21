@@ -58,7 +58,7 @@
                                         <label for="to_date" class="col-sm-12">اختر الموظف</label>
                                         <select class="form-control col-sm-12" name="admin_id">
                                             @foreach ($admins as $adm)
-                                            <option value="{{$adm->id}}">{{$adm->name}}</option>
+                                            <option value="{{$adm->id}}" @if (Request::get('admin_id') == $adm->id ) selected @endif>{{$adm->name}}</option>
                                             @endforeach
                                         </select>
                                     </div>
